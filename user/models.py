@@ -7,7 +7,7 @@ class Teacher(models.Model):
     password = models.CharField(max_length=100)
     qualification = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
-    address = models.TextField()
+    skills = models.TextField()
 
     class Meta:
         verbose_name = 'учитель'
