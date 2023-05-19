@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 from rest_framework import permissions
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 class TeacherList(generics.ListCreateAPIView):
@@ -17,4 +19,15 @@ class TeacherList(generics.ListCreateAPIView):
 class TeacherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Teacher.objects.all()
     serializer_class = TeacherSeializer
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
+
+@csrf_exempt
+def teacher_login(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    teacher_data = models.Teacher.objects.get(email=email,password=password)
+    if teacher_data:
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})
+
