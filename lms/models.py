@@ -27,3 +27,16 @@ class Course(models.Model):
     class Meta:
         verbose_name = 'курс'
         verbose_name_plural = 'курсы'
+
+
+class Chapter(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    video = models.FileField(upload_to='chapter_videos/', null=True)
+    comment = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Глава'
+        verbose_name_plural = 'Главы'
+
