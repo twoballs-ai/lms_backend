@@ -25,9 +25,12 @@ class TeacherDetail(generics.RetrieveUpdateDestroyAPIView):
 def teacher_login(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
-    teacherData = models.Teacher.objects.get(email=email,password=password)
-    if teacherData:
-        return JsonResponse({'bool': True, 'teacher_id': teacherData.id})
+    try:
+        teacher_data = models.Teacher.objects.get(email=email,password=password)
+    except models.Teacher.DoesNotExist:
+        teacher_data= None
+    if teacher_data:
+        return JsonResponse({'bool': True, 'teacher_id': teacher_data.id})
     else:
         return JsonResponse({'bool': False})
 
