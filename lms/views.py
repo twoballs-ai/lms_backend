@@ -25,11 +25,6 @@ class TeacherCourseList(generics.ListAPIView):
         return models.Course.objects.filter(teacher=teacher)
 
 
-class ChapterList(generics.ListCreateAPIView):
-    queryset = models.Chapter.objects.all()
-    serializer_class = ChapterSeializer
-
-
 class CourseChapterList(generics.ListAPIView):
     serializer_class = ChapterSeializer
 
@@ -39,3 +34,6 @@ class CourseChapterList(generics.ListAPIView):
         return models.Chapter.objects.filter(course=course)
 
 
+class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Chapter.objects.all()
+    serializer_class = ChapterSeializer
