@@ -23,6 +23,10 @@ class CourseList(generics.ListCreateAPIView):
         return qs
     
 
+class CourseDetailView(generics.RetrieveAPIView):
+    queryset = models.Course.objects.all()
+    serializer_class = CourseSeializer
+
 
 class TeacherCourseList(generics.ListCreateAPIView):
     serializer_class = CourseSeializer
