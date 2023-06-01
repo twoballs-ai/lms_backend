@@ -138,3 +138,6 @@ GitHub.sublime-settings
 lms/migrations/0002_alter_course_options_alter_coursecategory_options_and_more.py
 user/migrations/0003_alter_student_options_alter_teacher_options_and_more.py
 .gitignore
+user/migrations/0004_teacher_detail.py
+lms/migrations/0003_alter_chapter_course.py
+lms/migrations/0004_alter_course_teacher.py
