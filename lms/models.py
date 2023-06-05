@@ -28,9 +28,13 @@ class Course(models.Model):
         verbose_name = 'курс'
         verbose_name_plural = 'курсы'
 
-    def related_videos(self):
-        related_videos = Course.objects.filter(technologicals__icontains=self.technologicals)
-        return serializers.serialize('json',related_videos)
+    def related_courses(self):
+        related_courses = Course.objects.filter(technologicals__icontains=self.technologicals)
+        return serializers.serialize('json',related_courses)
+        
+    def technological_list(self):
+        technological_list=self.technologicals.split(',')
+        return technological_list
         
 
 

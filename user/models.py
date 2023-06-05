@@ -14,6 +14,10 @@ class Teacher(models.Model):
         verbose_name = 'учитель'
         verbose_name_plural = 'учителя'
 
+    def skill_list(self):
+        skill_list=self.skills.split(',')
+        return skill_list        
+
 
 class Student(models.Model):
     full_name = models.CharField(max_length=100)

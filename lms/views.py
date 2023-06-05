@@ -20,6 +20,14 @@ class CourseList(generics.ListCreateAPIView):
         if 'result' in self.request.GET:
             limit= int(self.request.GET['result'])
             qs = models.Course.objects.all().order_by('-id')[:limit]
+        if 'category' in self.request.GET:
+            category = self.request.GET['category']
+            qs = models.Course.objects.filter(technologicals__icontains=category)
+        if 'skill_name' in self.request.GET and 'teacher' in self.request.GET:
+           'skill_name' in self.request.GET['skill_name']
+           'teacher' in self.request.GET['teacher']
+           teacher = models.Teacher.objects.filter(id=skill_name).first
+           qs = models.Course.objects.filter(technologicals__icontains=skill_name, teacher=teacher)
         return qs
     
 
