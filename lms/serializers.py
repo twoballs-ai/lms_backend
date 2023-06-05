@@ -2,7 +2,7 @@ from rest_framework import serializers
 from . import models
 
 
-class CategorySeializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseCategory
         fields = ['id','title', 'description']

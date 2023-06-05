@@ -3,12 +3,12 @@ from . import models
 # Create your views here.
 from rest_framework import generics
 
-from .serializers import CategorySeializer, CourseSeializer, ChapterSeializer
+from .serializers import CategorySerializer, CourseSeializer, ChapterSeializer
 
 
 class CategoryList(generics.ListCreateAPIView):
     queryset = models.CourseCategory.objects.all()
-    serializer_class = CategorySeializer
+    serializer_class = CategorySerializer
 
 
 class CourseList(generics.ListCreateAPIView):
@@ -23,11 +23,11 @@ class CourseList(generics.ListCreateAPIView):
         if 'category' in self.request.GET:
             category = self.request.GET['category']
             qs = models.Course.objects.filter(technologicals__icontains=category)
-        if 'skill_name' in self.request.GET and 'teacher' in self.request.GET:
-           'skill_name' in self.request.GET['skill_name']
-           'teacher' in self.request.GET['teacher']
-           teacher = models.Teacher.objects.filter(id=skill_name).first
-           qs = models.Course.objects.filter(technologicals__icontains=skill_name, teacher=teacher)
+        if 'skill_slug' in self.request.GET and 'teacher' in self.request.GET:
+           skill_slug = self.request.GET['skill_slug']
+           teacher = self.request.GET['teacher']
+           teacher = models.Teacher.objects.filter(id=teacher).first()
+           qs = models.Course.objects.filter(technologicals__icontains=skill_slug,teacher=teacher)
         return qs
     
 

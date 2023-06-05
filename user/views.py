@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .serializers import TeacherSeializer
+from .serializers import TeacherSerializer, StudentSerializer
 from . import models
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,13 +12,13 @@ from django.views.decorators.csrf import csrf_exempt
 
 class TeacherList(generics.ListCreateAPIView):
     queryset = models.Teacher.objects.all()
-    serializer_class = TeacherSeializer
+    serializer_class = TeacherSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
 
 class TeacherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Teacher.objects.all()
-    serializer_class = TeacherSeializer
+    serializer_class = TeacherSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
 @csrf_exempt
@@ -34,3 +34,9 @@ def teacher_login(request):
     else:
         return JsonResponse({'bool': False})
 
+
+# students
+class StudentList(generics.ListCreateAPIView):
+    queryset = models.Student.objects.all()
+    serializer_class = StudentSerializer
+    # permission_classes = [permissions.IsAuthenticated]
