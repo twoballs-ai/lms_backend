@@ -1,7 +1,7 @@
 from django.db import models
 from django.core import serializers
 # Create your models here.
-from user.models import Teacher
+from user.models import Student, Teacher
 
 
 class CourseCategory(models.Model):
@@ -35,6 +35,9 @@ class Course(models.Model):
     def technological_list(self):
         technological_list=self.technologicals.split(',')
         return technological_list
+    
+    def __str__(self):
+        return self.title
         
 
 
@@ -49,3 +52,15 @@ class Chapter(models.Model):
         verbose_name = 'Глава'
         verbose_name_plural = 'Главы'
 
+    def __str__(self):
+        return self.title
+        
+
+class CourseEnroll(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name='enrolled_courses')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='enrolled_students')
+    enrolled_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Студент подписанный на курс'
+        verbose_name_plural = 'Студенты подписанные на курсы'

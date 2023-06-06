@@ -10,6 +10,9 @@ class Teacher(models.Model):
     phone = models.CharField(max_length=100)
     skills = models.TextField()
 
+    def __str__(self):
+        return self.full_name
+
     class Meta:
         verbose_name = 'учитель'
         verbose_name_plural = 'учителя'
@@ -25,6 +28,9 @@ class Student(models.Model):
     password = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
     interested_categories = models.TextField()
+
+    def __str__(self):
+        return self.full_name
 
     class Meta:
         verbose_name = 'ученик'
