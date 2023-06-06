@@ -2,8 +2,8 @@ from django.shortcuts import render
 from . import models
 # Create your views here.
 from rest_framework import generics
-
-from .serializers import CategorySerializer, CourseSeializer, ChapterSeializer
+from django.http import JsonResponse, HttpResponse
+from .serializers import CategorySerializer, CourseEnrollSerializer, CourseSeializer, ChapterSeializer
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -62,3 +62,30 @@ class CourseChapterList(generics.ListCreateAPIView):
 class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Chapter.objects.all()
     serializer_class = ChapterSeializer
+
+
+# список всех подписок на курсы.
+class StudenEnrollList(generics.ListCreateAPIView):
+    queryset = models.CourseEnroll.objects.all()
+    serializer_class = CourseEnrollSerializer    
+
+
+def enroll_course_status(request, student_id, course_id):
+    student = models.Student.objects.filter(id = student_id).first()
+    course = models.Course.objects.filter(id = course_id).first()
+    enroll_status = models.CourseEnroll.objects.filter(course=course,student=student).count()
+    if enroll_status:
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})
+    
+
+# список подписанных людей на нужные курсы.
+class EnrolledUsersByCourse(generics.ListAPIView):
+    queryset = models.CourseEnroll.objects.all()
+    serializer_class = CourseEnrollSerializer    
+    
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        course = models.Course.objects.get(pk=course_id)
+        return models.CourseEnroll.objects.filter(course=course)

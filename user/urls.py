@@ -9,6 +9,7 @@ urlpatterns = [
     # для студентов
     path('student/', views.StudentList.as_view()),
     path('student-login', views.student_login),
+    
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

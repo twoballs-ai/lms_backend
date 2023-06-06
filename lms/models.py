@@ -36,6 +36,10 @@ class Course(models.Model):
         technological_list=self.technologicals.split(',')
         return technological_list
     
+    def total_enrolled_students(self):
+        total_enrolled_students= CourseEnroll.objects.filter(course = self).count()
+        return total_enrolled_students
+
     def __str__(self):
         return self.title
         
@@ -64,3 +68,6 @@ class CourseEnroll(models.Model):
     class Meta:
         verbose_name = 'Студент подписанный на курс'
         verbose_name_plural = 'Студенты подписанные на курсы'
+
+    def __str__(self):
+        return f"{self.course}-{self.student}"   
