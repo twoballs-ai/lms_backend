@@ -3,17 +3,30 @@ from . import models
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    # categories = serializers.StringRelatedField(many=True)
+    # category_course = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = models.CourseCategory
         fields = ['id','title', 'description']
 
-class CourseSeializer(serializers.ModelSerializer):
+class CourseSerializer(serializers.ModelSerializer):
+    # category_name = serializers.RelatedField(source='category', read_only=True)
+    # category = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # category = serializers.StringRelatedField(many=True)
     class Meta:
         model = models.Course
         fields = ['id','category','teacher','title','description','course_image','technologicals','course_chapters','related_courses','technological_list','total_enrolled_students']
-        depth = 1
+        # depth = 1
 
-class ChapterSeializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        super(CourseSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 1
+
+class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Chapter
         fields = ['id','course', 'title','description','video','comment']

@@ -3,7 +3,7 @@ from . import models
 # Create your views here.
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
-from .serializers import CategorySerializer, CourseEnrollSerializer, CourseSeializer, ChapterSeializer
+from .serializers import CategorySerializer, CourseEnrollSerializer, CourseSerializer, ChapterSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -13,7 +13,7 @@ class CategoryList(generics.ListCreateAPIView):
 
 class CourseList(generics.ListCreateAPIView):
     queryset = models.Course.objects.all()
-    serializer_class = CourseSeializer
+    serializer_class = CourseSerializer
 
     def get_queryset(self):
         qs=super().get_queryset()
@@ -33,11 +33,11 @@ class CourseList(generics.ListCreateAPIView):
 
 class CourseDetailView(generics.RetrieveAPIView):
     queryset = models.Course.objects.all()
-    serializer_class = CourseSeializer
+    serializer_class = CourseSerializer
 
 
 class TeacherCourseList(generics.ListCreateAPIView):
-    serializer_class = CourseSeializer
+    serializer_class = CourseSerializer
 
     def get_queryset(self):
         teacher_id = self.kwargs['teacher_id']
@@ -47,11 +47,11 @@ class TeacherCourseList(generics.ListCreateAPIView):
 
 class TeacherCourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Course.objects.all()
-    serializer_class = CourseSeializer
+    serializer_class = CourseSerializer
 
 
 class CourseChapterList(generics.ListCreateAPIView):
-    serializer_class = ChapterSeializer
+    serializer_class = ChapterSerializer
 
     def get_queryset(self):
         course_id = self.kwargs['course_id']
@@ -61,7 +61,7 @@ class CourseChapterList(generics.ListCreateAPIView):
 
 class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Chapter.objects.all()
-    serializer_class = ChapterSeializer
+    serializer_class = ChapterSerializer
 
 
 # список всех подписок на курсы.
