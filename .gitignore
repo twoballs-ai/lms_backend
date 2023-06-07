@@ -141,3 +141,7 @@ user/migrations/0003_alter_student_options_alter_teacher_options_and_more.py
 user/migrations/0004_teacher_detail.py
 lms/migrations/0003_alter_chapter_course.py
 lms/migrations/0004_alter_course_teacher.py
+lms/migrations/0001_initial.py
+lms/migrations/__init__.py
+user/migrations/__init__.py
+user/migrations/0001_initial.py
