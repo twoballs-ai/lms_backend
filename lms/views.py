@@ -3,7 +3,8 @@ from . import models
 # Create your views here.
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
-from .serializers import CategorySerializer, CourseEnrollSerializer, CourseSerializer, ChapterSerializer
+from .serializers import CategorySerializer, CourseEnrollSerializer, \
+    CourseSerializer, ChapterSerializer, CourseRatingSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -89,3 +90,22 @@ class EnrolledUsersByCourse(generics.ListAPIView):
         course_id = self.kwargs['course_id']
         course = models.Course.objects.get(pk=course_id)
         return models.CourseEnroll.objects.filter(course=course)
+
+
+class CourseRatingList(generics.ListCreateAPIView):
+    queryset = models.CourseRating.objects.all()
+    serializer_class = CourseRatingSerializer
+
+    # def get_queryset(self):
+    #     course_id = self.kwargs['course_id']
+    #     course = models.Course.objects.get(pk=course_id)
+    #     return models.CourseRating.objects.filter(course=course)
+
+def rating_course_status(request, student_id, course_id):
+    student = models.Student.objects.filter(id = student_id).first()
+    course = models.Course.objects.filter(id = course_id).first()
+    rating_status = models.CourseRating.objects.filter(course=course,student=student).count()
+    if rating_status:
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})

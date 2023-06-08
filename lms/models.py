@@ -74,8 +74,8 @@ class CourseEnroll(models.Model):
     
 
 class CourseRating(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='rating_courses')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='rating_students')
     rating = models.PositiveBigIntegerField(default=0)
     review = models.TextField(null=True)
     review_time = models.DateTimeField(auto_now_add=True)
