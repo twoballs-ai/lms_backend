@@ -40,6 +40,10 @@ class Course(models.Model):
         total_enrolled_students= CourseEnroll.objects.filter(course = self).count()
         return total_enrolled_students
 
+    def course_rating(self):
+        course_rating= CourseRating.objects.filter(course = self).aggregate(avg_rating=models.Avg('rating'))
+        return course_rating['avg_rating']
+
     def __str__(self):
         return self.title
 

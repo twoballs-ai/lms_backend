@@ -3,6 +3,7 @@ from django.db import models
 
 class Teacher(models.Model):
     full_name = models.CharField(max_length=100)
+    teacher_image = models.ImageField(upload_to='teacher_profile_images/', null=True)
     detail = models.TextField(null=True,blank=True)
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
