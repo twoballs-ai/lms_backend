@@ -84,5 +84,22 @@ class CourseRating(models.Model):
     review = models.TextField(null=True)
     review_time = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Рейтинг курса'
+        verbose_name_plural = 'Рейтинги курсов'
+
     def __str__(self):
         return f"{self.course}-{self.student}-{self.rating}"   
+    
+
+class FavoriteCourse(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='favorite_courses')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='favorite_students')
+    is_favorite = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Избранный курс'
+        verbose_name_plural = 'Избранные курсы'
+
+    def __str__(self):
+        return f"{self.course}-{self.student}"   

@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from . import models
+from django.db.models import Q
 # Create your views here.
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
 from .serializers import CategorySerializer, CourseEnrollSerializer, \
-    CourseSerializer, ChapterSerializer, CourseRatingSerializer
+    CourseSerializer, ChapterSerializer, CourseRatingSerializer, StudentFavoriteCourseSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -25,10 +26,19 @@ class CourseList(generics.ListCreateAPIView):
             category = self.request.GET['category']
             qs = models.Course.objects.filter(technologicals__icontains=category)
         if 'skill_slug' in self.request.GET and 'teacher' in self.request.GET:
-           skill_slug = self.request.GET['skill_slug']
-           teacher = self.request.GET['teacher']
-           teacher = models.Teacher.objects.filter(id=teacher).first()
-           qs = models.Course.objects.filter(technologicals__icontains=skill_slug,teacher=teacher)
+            skill_slug = self.request.GET['skill_slug']
+            teacher = self.request.GET['teacher']
+            teacher = models.Teacher.objects.filter(id=teacher).first()
+            qs = models.Course.objects.filter(technologicals__icontains=skill_slug,teacher=teacher)
+        # разобратьсЯ в работе этой функции
+        elif 'student_id' in self.kwargs:
+            student_id = self.kwargs['student_id']
+            student = models.Student.objects.get(pk=student_id)
+            queries=[Q(technologicals__iendswiith=value) for value in student.interested_categories]
+            query = queries.pop()
+            for item in queries:
+                query |= item
+            return models.Course.objects.filter(query)
         return qs
     
 
@@ -116,6 +126,28 @@ def rating_course_status(request, student_id, course_id):
     course = models.Course.objects.filter(id = course_id).first()
     rating_status = models.CourseRating.objects.filter(course=course,student=student).count()
     if rating_status:
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})
+    
+class StudentFavoriteCourse(generics.ListCreateAPIView):
+    queryset = models.FavoriteCourse.objects.all()
+    serializer_class = StudentFavoriteCourseSerializer  
+
+def get_favorite_status(request, student_id, course_id):
+    student = models.Student.objects.filter(id = student_id).first()
+    course = models.Course.objects.filter(id = course_id).first()
+    favorite_status = models.FavoriteCourse.objects.filter(course=course,student=student).first()
+    if favorite_status:
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})
+    
+def remove_favorite_status(request, student_id, course_id):
+    student = models.Student.objects.filter(id = student_id).first()
+    course = models.Course.objects.filter(id = course_id).first()
+    favorite_status = models.FavoriteCourse.objects.filter(course=course,student=student).delete()
+    if favorite_status:
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})

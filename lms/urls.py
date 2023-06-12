@@ -21,7 +21,10 @@ urlpatterns = [
     path('course-rating/<int:course_id>', views.CourseRatingList.as_view()),
     path('get-rating-status/<int:student_id>/<int:course_id>', views.rating_course_status),
     path('get-student-courses/<int:student_id>', views.EnrolledUsersByCourse.as_view()),
-
+    path('get-student-recommend-courses/<int:student_id>', views.EnrolledUsersByCourse.as_view()),
+    path('add-favorite-courses/', views.StudentFavoriteCourse.as_view()),
+    path('remove-favorite-courses/<int:student_id>/<int:course_id>', views.remove_favorite_status),
+    path('get-favorite-courses/<int:student_id>/<int:course_id>', views.get_favorite_status),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
