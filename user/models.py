@@ -1,12 +1,13 @@
 from django.db import models
 
+import lms.models
+
 
 class Teacher(models.Model):
     full_name = models.CharField(max_length=100)
     teacher_image = models.ImageField(upload_to='teacher_profile_images/', null=True)
-    detail = models.TextField(null=True,blank=True)
     email = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100, blank=True)
     qualification = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
     skills = models.TextField()
@@ -22,6 +23,18 @@ class Teacher(models.Model):
         skill_list=self.skills.split(',')
         return skill_list        
 
+    def total_teacher_courses(self):
+        total_courses= lms.models.Course.objects.filter(teacher = self).count()
+        return total_courses
+    
+    def total_teacher_chapters(self):
+        total_chapters= lms.models.Chapter.objects.filter(course__teacher= self).count()
+        return total_chapters
+
+    def total_teacher_students(self):
+        total_students= lms.models.CourseEnroll.objects.filter(course__teacher = self).count()
+        return total_students
+    
 
 class Student(models.Model):
     full_name = models.CharField(max_length=100)

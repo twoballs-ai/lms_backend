@@ -20,6 +20,7 @@ urlpatterns = [
     path('enrolled-students/<int:course_id>', views.EnrolledUsersByCourse.as_view()),
     path('course-rating/<int:course_id>', views.CourseRatingList.as_view()),
     path('get-rating-status/<int:student_id>/<int:course_id>', views.rating_course_status),
+    path('get-student-courses/<int:student_id>', views.EnrolledUsersByCourse.as_view()),
 
 ]
 

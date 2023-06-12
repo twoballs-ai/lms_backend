@@ -95,6 +95,10 @@ class EnrolledUsersByCourse(generics.ListAPIView):
             teacher_id = self.kwargs['teacher_id']
             teacher = models.Teacher.objects.get(pk=teacher_id)
             return models.CourseEnroll.objects.filter(course__teacher= teacher).distinct()
+        elif 'student_id' in self.kwargs:
+            student_id = self.kwargs['student_id']
+            student = models.Student.objects.get(pk=student_id)
+            return models.CourseEnroll.objects.filter(student= student).distinct()
         # return models.CourseEnroll.objects.filter(course__teacher= teacher).distinct('id') проверить на посгрес
 
 
