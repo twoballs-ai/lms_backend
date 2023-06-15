@@ -49,3 +49,22 @@ class Student(models.Model):
     class Meta:
         verbose_name = 'ученик'
         verbose_name_plural = 'ученики'
+
+    def total_student_enroll_courses(self):
+        enrolled_courses= lms.models.CourseEnroll.objects.filter(student = self).count()
+        return enrolled_courses
+    
+    def total_favorite_courses(self):
+        favorite_course= lms.models.FavoriteCourse.objects.filter(student= self).count()
+        return favorite_course
+    
+    def total_completed_tasks(self):
+        completed_task= lms.models.TaskForStudentsFromTeacher.objects.filter(student = self, complete_status=True).count()
+        return completed_task    
+
+    def total_pending_tasks(self):
+        pending_task= lms.models.TaskForStudentsFromTeacher.objects.filter(student = self, complete_status=False).count()
+        return pending_task    
+    
+    
+    

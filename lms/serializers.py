@@ -24,7 +24,7 @@ class CourseSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         self.Meta.depth = 0
         if request and request.method == 'GET':
-            self.Meta.depth = 1
+            self.Meta.depth = 2
 
 class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,3 +70,20 @@ class CourseRatingSerializer(serializers.ModelSerializer):
             self.Meta.depth = 0
             if request and request.method == 'GET':
                 self.Meta.depth = 1
+
+    
+class TaskForStudentsSerializer(serializers.ModelSerializer):
+    # category_name = serializers.RelatedField(source='category', read_only=True)
+    # category = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # category = serializers.StringRelatedField(many=True)
+    class Meta:
+        model = models.TaskForStudentsFromTeacher
+        fields = ['id','teacher','student','complete_status','title','detail','add_time']
+        # depth = 1
+
+    def __init__(self, *args, **kwargs):
+        super(TaskForStudentsSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 1

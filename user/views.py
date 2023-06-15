@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .serializers import TeacherDashboardSerializer, TeacherSerializer, StudentSerializer
+from .serializers import TeacherDashboardSerializer, TeacherSerializer, StudentSerializer, StudentDashboardSerializer
 from . import models
 from rest_framework.response import Response
 from rest_framework import status
@@ -71,3 +71,8 @@ def teacher_password_reset(request,teacher_id):
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})    
+    
+
+class StudentDashboard(generics.RetrieveAPIView):
+    queryset = models.Student.objects.all()
+    serializer_class = StudentDashboardSerializer    

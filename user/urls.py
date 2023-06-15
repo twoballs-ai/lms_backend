@@ -10,6 +10,8 @@ urlpatterns = [
     path('teacher-login', views.teacher_login),
     # для студентов
     path('student/', views.StudentList.as_view()),
+    path('student/dashboard/<int:pk>/', views.StudentDashboard.as_view()),
+
     path('student-login', views.student_login),
     
 ]

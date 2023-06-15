@@ -5,7 +5,7 @@ from django.db.models import Q
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
 from .serializers import CategorySerializer, CourseEnrollSerializer, \
-    CourseSerializer, ChapterSerializer, CourseRatingSerializer, StudentFavoriteCourseSerializer
+    CourseSerializer, ChapterSerializer, CourseRatingSerializer, StudentFavoriteCourseSerializer, TaskForStudentsSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -132,7 +132,15 @@ def rating_course_status(request, student_id, course_id):
     
 class StudentFavoriteCourse(generics.ListCreateAPIView):
     queryset = models.FavoriteCourse.objects.all()
-    serializer_class = StudentFavoriteCourseSerializer  
+    serializer_class = StudentFavoriteCourseSerializer
+
+    def get_queryset(self):
+        if 'student_id' in self.kwargs:
+            student_id = self.kwargs['student_id']
+            student = models.Student.objects.get(pk=student_id)
+            return models.FavoriteCourse.objects.filter(student= student).distinct()  
+ 
+ 
 
 def get_favorite_status(request, student_id, course_id):
     student = models.Student.objects.filter(id = student_id).first()
@@ -151,3 +159,28 @@ def remove_favorite_status(request, student_id, course_id):
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})
+    
+
+class TaskForStudentList(generics.ListCreateAPIView):
+    queryset = models.TaskForStudentsFromTeacher.objects.all()
+    serializer_class = TaskForStudentsSerializer
+
+    def get_queryset(self):
+        teacher_id = self.kwargs['teacher_id']
+        teacher = models.Teacher.objects.get(pk=teacher_id)
+        return models.TaskForStudentsFromTeacher.objects.filter(teacher=teacher)
+     
+
+class StudentUpcomingTask(generics.ListCreateAPIView):
+    queryset = models.TaskForStudentsFromTeacher.objects.all()
+    serializer_class = TaskForStudentsSerializer
+
+    def get_queryset(self):
+        student_id = self.kwargs['student_id']
+        student = models.Student.objects.get(pk=student_id)
+        return models.TaskForStudentsFromTeacher.objects.filter(student=student)
+    
+
+class UpdateTask(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.TaskForStudentsFromTeacher.objects.all()
+    serializer_class = TaskForStudentsSerializer

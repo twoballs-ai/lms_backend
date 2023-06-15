@@ -32,3 +32,9 @@ class StudentSerializer(serializers.ModelSerializer):
         self.Meta.depth = 0
         if request and request.method == 'GET':
             self.Meta.depth = 1
+
+
+class StudentDashboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Student
+        fields = ['total_student_enroll_courses','total_favorite_courses','total_completed_tasks', 'total_pending_tasks']
