@@ -46,6 +46,12 @@ class StudentList(generics.ListCreateAPIView):
     # permission_classes = [permissions.IsAuthenticated]
 
 
+class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Student.objects.all()
+    serializer_class = StudentSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+
 @csrf_exempt
 def student_login(request):
     email = request.POST.get('email')
@@ -76,3 +82,17 @@ def teacher_password_reset(request,teacher_id):
 class StudentDashboard(generics.RetrieveAPIView):
     queryset = models.Student.objects.all()
     serializer_class = StudentDashboardSerializer    
+
+@csrf_exempt
+def student_password_reset(request,student_id):
+    password = request.POST.get('password')
+    try:
+        student_data = models.Student.objects.get(id=student_id)
+    except models.Student.DoesNotExist:
+        student_data= None
+    if student_data:
+        student_data = models.Student.objects.filter(id=student_id).update(password=password)
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})    
+    

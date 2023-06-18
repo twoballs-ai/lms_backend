@@ -38,8 +38,9 @@ class Teacher(models.Model):
 
 class Student(models.Model):
     full_name = models.CharField(max_length=100)
+    student_image = models.ImageField(upload_to='student_profile_images/', null=True)
     email = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100,blank=True)
     username = models.CharField(max_length=100)
     interested_categories = models.TextField()
 
