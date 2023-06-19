@@ -30,6 +30,7 @@ urlpatterns = [
     path('student-task/<int:teacher_id>', views.TaskForStudentList.as_view()),
     path('get-student-upcoming-task/<int:student_id>', views.StudentUpcomingTask.as_view()),
     path('update-task/<int:pk>', views.UpdateTask.as_view()),
+    path('student/get-all-notify/<int:student_id>', views.NotificationList.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

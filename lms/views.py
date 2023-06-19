@@ -5,7 +5,7 @@ from django.db.models import Q
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
 from .serializers import CategorySerializer, CourseEnrollSerializer, \
-    CourseSerializer, ChapterSerializer, CourseRatingSerializer, StudentFavoriteCourseSerializer, TaskForStudentsSerializer
+    CourseSerializer, ChapterSerializer, CourseRatingSerializer, NotificationSerializer, StudentFavoriteCourseSerializer, TaskForStudentsSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -178,9 +178,21 @@ class StudentUpcomingTask(generics.ListCreateAPIView):
     def get_queryset(self):
         student_id = self.kwargs['student_id']
         student = models.Student.objects.get(pk=student_id)
+        models.Notification.objects.filter(student=student, notification_for='student', notification_subject= 'task').update(notification_read_status=True)
         return models.TaskForStudentsFromTeacher.objects.filter(student=student)
     
 
 class UpdateTask(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.TaskForStudentsFromTeacher.objects.all()
     serializer_class = TaskForStudentsSerializer
+
+
+class NotificationList(generics.ListCreateAPIView):
+    queryset = models.Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+    def get_queryset(self):
+        student_id = self.kwargs['student_id']
+        student = models.Student.objects.get(pk=student_id)
+        return models.Notification.objects.filter(student=student, notification_for='student', notification_subject= 'task', notification_read_status=False)
+    

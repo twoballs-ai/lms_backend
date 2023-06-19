@@ -115,7 +115,21 @@ class TaskForStudentsFromTeacher(models.Model):
 
     class Meta:
         verbose_name = 'Упражнения для ученика'
-        verbose_name_plural = 'Уапражнение для ученика'
+        verbose_name_plural = 'Упражнение для ученика'
 
     def __str__(self):
         return f"{self.title}"   
+    
+
+class Notification(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    # notification_text= models.TextField(verbose_name='Notification Text')
+    notification_subject= models.CharField(max_length=150, verbose_name='Notification Subject', null=True)
+    notification_for= models.CharField(max_length=150, verbose_name='Notification For', null=True)
+    notification_created_time = models.DateTimeField(auto_now_add=True)
+    notification_read_status = models.BooleanField(default=False, verbose_name='Notification Status')
+
+    class Meta:
+        verbose_name = 'Оповещение'
+        verbose_name_plural = 'Оповещения'
