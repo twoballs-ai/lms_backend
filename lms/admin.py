@@ -9,6 +9,9 @@ admin.site.register(models.CourseEnroll)
 admin.site.register(models.CourseRating)
 admin.site.register(models.FavoriteCourse)
 admin.site.register(models.TaskForStudentsFromTeacher)
+admin.site.register(models.Quiz)
+admin.site.register(models.QuizQuestion)
+admin.site.register(models.CourseQuiz)
 
 
 class NotificationAdmin(admin.ModelAdmin):
