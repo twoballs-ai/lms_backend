@@ -108,7 +108,7 @@ class QuizSerializer(serializers.ModelSerializer):
     # category = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     # category = serializers.StringRelatedField(many=True)
     class Meta:
-        model = models.Course
+        model = models.Quiz
         fields = ['id','teacher','title','detail', 'add_time']
         # depth = 1
 

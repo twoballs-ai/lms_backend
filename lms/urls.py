@@ -31,6 +31,8 @@ urlpatterns = [
     path('get-student-upcoming-task/<int:student_id>', views.StudentUpcomingTask.as_view()),
     path('update-task/<int:pk>', views.UpdateTask.as_view()),
     path('student/get-all-notify/<int:student_id>', views.NotificationList.as_view()),
+    path('teacher/save-notify', views.NotificationList.as_view()),
+   
     # квизы
     path('quiz/', views.QuizList.as_view()),
 ]
