@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'lms.apps.LmsConfig',
     'user.apps.UserConfig',
+    'quiz.apps.QuizConfig',
 ]
 
 MIDDLEWARE = [

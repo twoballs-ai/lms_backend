@@ -32,9 +32,7 @@ urlpatterns = [
     path('update-task/<int:pk>', views.UpdateTask.as_view()),
     path('student/get-all-notify/<int:student_id>', views.NotificationList.as_view()),
     path('teacher/save-notify', views.NotificationList.as_view()),
-   
-    # квизы
-    path('quiz/', views.QuizList.as_view()),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

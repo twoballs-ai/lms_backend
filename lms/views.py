@@ -5,7 +5,7 @@ from django.db.models import Q
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
 from .serializers import CategorySerializer, CourseEnrollSerializer, \
-    CourseSerializer, ChapterSerializer, CourseRatingSerializer, NotificationSerializer, QuizSerializer, StudentFavoriteCourseSerializer, TaskForStudentsSerializer
+    CourseSerializer, ChapterSerializer, CourseRatingSerializer, NotificationSerializer,  StudentFavoriteCourseSerializer, TaskForStudentsSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -197,6 +197,3 @@ class NotificationList(generics.ListCreateAPIView):
         return models.Notification.objects.filter(student=student, notification_for='student', notification_subject= 'task', notification_read_status=False)
     
 
-class QuizList(generics.ListCreateAPIView):
-    queryset = models.Quiz.objects.all()
-    serializer_class = QuizSerializer

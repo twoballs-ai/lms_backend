@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('user.urls')),
     path('api/', include('lms.urls')),
+    path('api-quiz/', include('quiz.urls')),
     path('api-auth/', include('rest_framework.urls'))
 
 
