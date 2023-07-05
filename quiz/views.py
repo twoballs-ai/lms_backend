@@ -4,7 +4,7 @@ from django.db.models import Q
 # Create your views here.
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
-from .serializers import QuizSerializer
+from .serializers import QuizQuestionSerializer, QuizSerializer
 
 
 # Create your views here.
@@ -30,3 +30,13 @@ class TeacherQuizDetail(generics.RetrieveUpdateDestroyAPIView):
 class QuizDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Quiz.objects.all()
     serializer_class = QuizSerializer
+
+
+class QuizQuestionList(generics.ListCreateAPIView):
+    serializer_class = QuizQuestionSerializer
+
+    def get_queryset(self):
+        quiz_id = self.kwargs['quiz_id']
+        quiz = models.Quiz.objects.get(pk=quiz_id)
+        return models.QuizQuestion.objects.filter(quiz=quiz)
+    

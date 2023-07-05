@@ -9,6 +9,9 @@ class Quiz(models.Model):
     detail=  models.TextField()
     add_time = models.DateTimeField(auto_now_add=True)
 
+    def assign_status(self):
+        return QuizQuestion.objects.filter(quiz = self).count()
+
     class Meta:
         verbose_name = 'Квиз'
         verbose_name_plural = 'Квизы'
@@ -35,6 +38,7 @@ class CourseQuiz(models.Model):
     # notification_text= models.TextField(verbose_name='Notification Text')
     add_time = models.DateTimeField(auto_now_add=True)
 
+    
     class Meta:
         verbose_name = 'Квиз для курса'
         verbose_name_plural = 'Квизы  для курса'
