@@ -8,7 +8,7 @@ class QuizSerializer(serializers.ModelSerializer):
     # category = serializers.StringRelatedField(many=True)
     class Meta:
         model = models.Quiz
-        fields = ['id','teacher','title','detail', 'assign_status', 'add_time']
+        fields = ['id','teacher','title','detail', 'add_time']
         # depth = 1
 
     def __init__(self, *args, **kwargs):
@@ -26,6 +26,20 @@ class QuizQuestionSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super(QuizQuestionSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 1
+
+
+class CourseQuizSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CourseQuiz
+        fields = ['id','teacher','course', 'quiz', 'add_time']   
+        # depth = 1
+
+    def __init__(self, *args, **kwargs):
+        super(CourseQuizSerializer, self).__init__(*args, **kwargs)
         request = self.context.get('request')
         self.Meta.depth = 0
         if request and request.method == 'GET':
