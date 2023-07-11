@@ -135,3 +135,17 @@ class Notification(models.Model):
         verbose_name_plural = 'Оповещения'
 
 
+class StudyMaterial(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    upload = models.FileField(upload_to='study_material/', null=True)
+    comment = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = 'Материалы для курса'
+        verbose_name_plural = 'Материалы для курса'
+
+    def __str__(self):
+        return self.title
+        

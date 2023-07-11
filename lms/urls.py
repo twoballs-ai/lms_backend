@@ -7,6 +7,8 @@ urlpatterns = [
     path('category/', views.CategoryList.as_view()),
     # росмотр всех курсов и добавление курса
     path('course/', views.CourseList.as_view()),
+    path('popular-courses/', views.CourseRatingList.as_view()),
+    path('search-by-course/<str:search_string>', views.CourseList.as_view()),
     # просмотр курса по айди:
     path('course/<int:pk>', views.CourseDetailView.as_view()),
     # добавление глав
@@ -32,6 +34,10 @@ urlpatterns = [
     path('update-task/<int:pk>', views.UpdateTask.as_view()),
     path('student/get-all-notify/<int:student_id>', views.NotificationList.as_view()),
     path('teacher/save-notify', views.NotificationList.as_view()),
+# материалы курса
+    path('study-materials/<int:course_id>', views.StudyMaterialList.as_view()),
+    path('study-material/<int:pk>', views.StudyMaterialDetail.as_view()),
+    path('student/study-materials/<int:course_id>', views.StudentStudyMaterialList.as_view()),
 
 ]
 

@@ -5,7 +5,7 @@ from django.db.models import Q
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
 from .serializers import CategorySerializer, CourseEnrollSerializer, \
-    CourseSerializer, ChapterSerializer, CourseRatingSerializer, NotificationSerializer,  StudentFavoriteCourseSerializer, TaskForStudentsSerializer
+    CourseSerializer, ChapterSerializer, CourseRatingSerializer, NotificationSerializer,  StudentFavoriteCourseSerializer, StudyMaterialSerializer, TaskForStudentsSerializer
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -30,6 +30,11 @@ class CourseList(generics.ListCreateAPIView):
             teacher = self.request.GET['teacher']
             teacher = models.Teacher.objects.filter(id=teacher).first()
             qs = models.Course.objects.filter(technologicals__icontains=skill_slug,teacher=teacher)
+        if 'search_string' in self.kwargs:
+            search = self.kwargs['search_string']
+            if search:
+                qs = models.Course.objects.filter(Q(title__icontains=search)|Q(technologicals__icontains=search))
+    
         # разобратьсЯ в работе этой функции
         elif 'student_id' in self.kwargs:
             student_id = self.kwargs['student_id']
@@ -197,3 +202,23 @@ class NotificationList(generics.ListCreateAPIView):
         return models.Notification.objects.filter(student=student, notification_for='student', notification_subject= 'task', notification_read_status=False)
     
 
+class StudyMaterialList(generics.ListCreateAPIView):
+    serializer_class = StudyMaterialSerializer
+
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        course = models.Course.objects.get(pk=course_id)
+        return models.StudyMaterial.objects.filter(course=course)
+
+
+class StudyMaterialDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.StudyMaterial.objects.all()
+    serializer_class = StudyMaterialSerializer
+
+class StudentStudyMaterialList(generics.ListAPIView):
+    serializer_class = StudyMaterialSerializer
+
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        course = models.Course.objects.get(pk=course_id)
+        return models.StudyMaterial.objects.filter(course=course)

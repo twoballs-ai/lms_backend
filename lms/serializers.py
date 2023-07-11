@@ -102,3 +102,10 @@ class NotificationSerializer(serializers.ModelSerializer):
         if request and request.method == 'GET':
             self.Meta.depth = 2    
 
+
+class StudyMaterialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.StudyMaterial
+        fields = ['id','course', 'title','description','upload','comment']
+
+
