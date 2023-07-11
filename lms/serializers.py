@@ -62,15 +62,15 @@ class StudentFavoriteCourseSerializer(serializers.ModelSerializer):
 class CourseRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseRating
-        fields = ['id','course', 'student', 'rating','review','review_time']
+        fields = ['id','course', 'student', 'rating', 'review', 'review_time']   
+        # depth = 1
 
-        def __init__(self, *args, **kwargs):
-            super(CourseRatingSerializer, self).__init__(*args, **kwargs)
-            request = self.context.get('request')
-            self.Meta.depth = 0
-            if request and request.method == 'GET':
-                self.Meta.depth = 1
-
+    def __init__(self, *args, **kwargs):
+        super(CourseRatingSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 2   
     
 class TaskForStudentsSerializer(serializers.ModelSerializer):
     # category_name = serializers.RelatedField(source='category', read_only=True)

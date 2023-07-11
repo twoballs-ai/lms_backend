@@ -121,7 +121,16 @@ class CourseRatingList(generics.ListCreateAPIView):
     queryset = models.CourseRating.objects.all()
     serializer_class = CourseRatingSerializer
 
-    # def get_queryset(self):
+    def get_queryset(self):
+        # if 'popular' in self.request.GET:
+        #     limit= int(self.request.GET['popular'])
+        #     return models.CourseRating.objects.all().order_by('-id')[:limit]
+        if 'popular' in self.request.GET:
+            sql="SELECT *,AVG(cr.rating) as avg_rating FROM lms_courserating as cr INNER JOIN lms_course as c ON cr.course_id=c.id GROUP BY c.id ORDER BY avg_rating desc LIMIT 4"
+            return models.CourseRating.objects.raw(sql)
+        if 'all' in self.request.GET:
+            sql="SELECT *,AVG(cr.rating) as avg_rating FROM lms_courserating as cr INNER JOIN lms_course as c ON cr.course_id=c.id GROUP BY c.id ORDER BY avg_rating desc"
+            return models.CourseRating.objects.raw(sql)
     #     course_id = self.kwargs['course_id']
     #     course = models.Course.objects.get(pk=course_id)
     #     return models.CourseRating.objects.filter(course=course)
