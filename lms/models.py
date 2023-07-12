@@ -23,6 +23,7 @@ class Course(models.Model):
     description = models.TextField(null=True)
     course_image = models.ImageField(upload_to='course_images/', null=True)
     technologicals = models.TextField(blank=True, null=True)
+    course_views = models.BigIntegerField(default=0)
 
     class Meta:
         verbose_name = 'курс'

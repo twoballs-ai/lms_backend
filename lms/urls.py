@@ -9,6 +9,8 @@ urlpatterns = [
     path('course/', views.CourseList.as_view()),
     path('popular-courses/', views.CourseRatingList.as_view()),
     path('search-by-course/<str:search_string>', views.CourseList.as_view()),
+    path('update-view/<int:course_id>', views.update_view),
+    path('student-testimonial/', views.CourseRatingList.as_view()),
     # просмотр курса по айди:
     path('course/<int:pk>', views.CourseDetailView.as_view()),
     # добавление глав

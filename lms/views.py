@@ -131,6 +131,7 @@ class CourseRatingList(generics.ListCreateAPIView):
         if 'all' in self.request.GET:
             sql="SELECT *,AVG(cr.rating) as avg_rating FROM lms_courserating as cr INNER JOIN lms_course as c ON cr.course_id=c.id GROUP BY c.id ORDER BY avg_rating desc"
             return models.CourseRating.objects.raw(sql)
+        return models.CourseRating.objects.filter(course__isnull=False).order_by('-rating')
     #     course_id = self.kwargs['course_id']
     #     course = models.Course.objects.get(pk=course_id)
     #     return models.CourseRating.objects.filter(course=course)
@@ -231,3 +232,9 @@ class StudentStudyMaterialList(generics.ListAPIView):
         course_id = self.kwargs['course_id']
         course = models.Course.objects.get(pk=course_id)
         return models.StudyMaterial.objects.filter(course=course)
+
+def update_view(request, course_id):
+    queryset = models.Course.objects.filter(pk=course_id).first()
+    queryset.course_views+=1
+    queryset.save()
+    return JsonResponse({'views':queryset.course_views})

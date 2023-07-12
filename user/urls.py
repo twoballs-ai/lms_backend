@@ -4,6 +4,7 @@ from user import views
 
 urlpatterns = [
     path('teacher/', views.TeacherList.as_view()),
+    path('popular-teachers/', views.TeacherList.as_view()),
     path('teacher/<int:pk>/', views.TeacherDetail.as_view()),
     path('teacher/dashboard/<int:pk>/', views.TeacherDashboard.as_view()),
     path('teacher/reset-password/<int:teacher_id>/', views.teacher_password_reset),
