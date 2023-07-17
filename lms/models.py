@@ -6,6 +6,7 @@ from user.models import Student, Teacher
 
 class CourseCategory(models.Model):
     title = models.CharField(max_length=150)
+    slug = models.SlugField(max_length=200,unique=True)
     description = models.TextField(max_length=1000)
 
     class Meta:
@@ -51,10 +52,39 @@ class Course(models.Model):
     def __str__(self):
         return self.title
 
+class Module (models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_section')
+    title = models.CharField(max_length=150)
+    description = models.TextField(null=True,blank=True)    
 
 
 class Chapter(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_chapters')
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='course_modules')
+    title = models.CharField(max_length=150)
+    description = models.TextField()
+    
+    class Meta:
+        verbose_name = 'Глава'
+        verbose_name_plural = 'Главы'
+
+    def __str__(self):
+        return self.title
+# class Chapter(models.Model):
+#     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='course_modules')
+#     title = models.CharField(max_length=150)
+#     description = models.TextField()
+#     video = models.FileField(upload_to='chapter_videos/', null=True)
+#     comment = models.TextField(blank=True, null=True)
+
+#     class Meta:
+#         verbose_name = 'Глава'
+#         verbose_name_plural = 'Главы'
+
+#     def __str__(self):
+#         return self.title
+
+class Stage(models.Model):
+    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='chapter_modules')
     title = models.CharField(max_length=150)
     description = models.TextField()
     video = models.FileField(upload_to='chapter_videos/', null=True)
@@ -66,6 +96,9 @@ class Chapter(models.Model):
 
     def __str__(self):
         return self.title
+        
+
+
         
 
 class CourseEnroll(models.Model):
