@@ -8,7 +8,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.CourseCategory
-        fields = ['id','title', 'description']
+        fields = ['id','title', 'description','total_courses']
 
 class CourseSerializer(serializers.ModelSerializer):
     # category_name = serializers.RelatedField(source='category', read_only=True)

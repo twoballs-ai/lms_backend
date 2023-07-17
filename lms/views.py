@@ -14,9 +14,9 @@ class CategoryList(generics.ListCreateAPIView):
 
 
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 4
+    page_size = 16
     page_size_query_param = 'page_size'
-    max_page_size = 4
+    max_page_size = 16
 
 
 class CourseList(generics.ListCreateAPIView):
@@ -31,7 +31,8 @@ class CourseList(generics.ListCreateAPIView):
             qs = models.Course.objects.all().order_by('-id')[:limit]
         if 'category' in self.request.GET:
             category = self.request.GET['category']
-            qs = models.Course.objects.filter(technologicals__icontains=category)
+            category = models.CourseCategory.objects.filter(id=category).first()
+            qs = models.Course.objects.filter(category=category)
         if 'skill_slug' in self.request.GET and 'teacher' in self.request.GET:
             skill_slug = self.request.GET['skill_slug']
             teacher = self.request.GET['teacher']

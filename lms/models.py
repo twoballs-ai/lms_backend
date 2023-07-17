@@ -12,6 +12,9 @@ class CourseCategory(models.Model):
         verbose_name = 'категория курса'
         verbose_name_plural = 'категории курсов'
 
+    def total_courses(self):
+        return Course.objects.filter(category = self).count()
+
     def __str__(self):
         return self.title
 
