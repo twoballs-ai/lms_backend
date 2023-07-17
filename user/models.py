@@ -11,6 +11,8 @@ class Teacher(models.Model):
     qualification = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
     skills = models.TextField()
+    verify_status = models.BooleanField(default=False)
+    otp_digit = models.CharField(max_length=10, null=True)
 
     def __str__(self):
         return self.full_name
@@ -43,7 +45,9 @@ class Student(models.Model):
     password = models.CharField(max_length=100,blank=True)
     username = models.CharField(max_length=100)
     interested_categories = models.TextField()
-
+    verify_status = models.BooleanField(default=False)
+    otp_digit = models.CharField(max_length=10, null=True)
+    
     def __str__(self):
         return self.full_name
 

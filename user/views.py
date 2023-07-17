@@ -39,9 +39,13 @@ def teacher_login(request):
     except models.Teacher.DoesNotExist:
         teacher_data= None
     if teacher_data:
-        return JsonResponse({'bool': True, 'teacher_id': teacher_data.id})
+        if not teacher_data.verify_status:
+            return JsonResponse({'bool': False,'message': 'аккаунт не верифицирован'})
+        else:
+            return JsonResponse({'bool': True, 'teacher_id': teacher_data.id})
+
     else:
-        return JsonResponse({'bool': False})
+        return JsonResponse({'bool': False,  'message': 'Пользователя с такими данными не существует'})
 
 
 # students
