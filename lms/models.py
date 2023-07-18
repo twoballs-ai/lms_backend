@@ -2,7 +2,7 @@ from django.db import models
 from django.core import serializers
 # Create your models here.
 from user.models import Student, Teacher
-
+from django.contrib.contenttypes.models import ContentType
 
 class CourseCategory(models.Model):
     title = models.CharField(max_length=150)
@@ -27,6 +27,8 @@ class Course(models.Model):
     description = models.TextField(null=True)
     course_image = models.ImageField(upload_to='course_images/', null=True)
     technologicals = models.TextField(blank=True, null=True)
+    slug = models.SlugField(max_length=200, unique=True)
+
     course_views = models.BigIntegerField(default=0)
 
     class Meta:
@@ -51,15 +53,10 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
-
-class Module (models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_section')
-    title = models.CharField(max_length=150)
-    description = models.TextField(null=True,blank=True)    
-
+    
 
 class Chapter(models.Model):
-    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='course_modules')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_chapters')
     title = models.CharField(max_length=150)
     description = models.TextField()
     
@@ -69,6 +66,22 @@ class Chapter(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Module(models.Model):
+    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='chapter_modules')
+    title = models.CharField(max_length=150)
+    description = models.TextField(null=True,blank=True)
+
+    class Meta:
+        verbose_name = 'модули'
+        verbose_name_plural = 'модули'
+
+    def __str__(self):
+        return f'{self.title}'    
+
+
+
 # class Chapter(models.Model):
 #     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='course_modules')
 #     title = models.CharField(max_length=150)
@@ -84,11 +97,11 @@ class Chapter(models.Model):
 #         return self.title
 
 class Stage(models.Model):
-    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE, related_name='chapter_modules')
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='stage_modules')
     title = models.CharField(max_length=150)
     description = models.TextField()
-    video = models.FileField(upload_to='chapter_videos/', null=True)
-    comment = models.TextField(blank=True, null=True)
+    # video = models.FileField(upload_to='chapter_videos/', null=True)
+    # comment = models.TextField(blank=True, null=True)
 
     class Meta:
         verbose_name = 'Глава'
@@ -98,8 +111,20 @@ class Stage(models.Model):
         return self.title
         
 
+class Content(models.Model):
+    stage = models.ForeignKey(Stage,
+                               related_name='contents',
+                               on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType,
+                                     on_delete=models.CASCADE,
+                                     limit_choices_to={'model__in':(
+                                     'text',
+                                     'video',
+                                     'image',
+                                     'file')})
+    object_id = models.PositiveIntegerField()
 
-        
+
 
 class CourseEnroll(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name='enrolled_courses')
@@ -148,7 +173,7 @@ class TaskForStudentsFromTeacher(models.Model):
     complete_status = models.BooleanField(default=False, null=True)
     title = models.CharField(max_length=150)
     detail = models.TextField(null=True)
-    add_time = models.DateTimeField(auto_now_add=True)
+    add_time = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         verbose_name = 'Упражнения для ученика'
