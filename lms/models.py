@@ -10,8 +10,8 @@ class CourseCategory(models.Model):
     description = models.TextField(max_length=1000)
 
     class Meta:
-        verbose_name = 'категория курса'
-        verbose_name_plural = 'категории курсов'
+        verbose_name = '1. категория курса'
+        verbose_name_plural = '1. категории курсов'
 
     def total_courses(self):
         return Course.objects.filter(category = self).count()
@@ -28,12 +28,11 @@ class Course(models.Model):
     course_image = models.ImageField(upload_to='course_images/', null=True)
     technologicals = models.TextField(blank=True, null=True)
     slug = models.SlugField(max_length=200, unique=True)
-
     course_views = models.BigIntegerField(default=0)
 
     class Meta:
-        verbose_name = 'курс'
-        verbose_name_plural = 'курсы'
+        verbose_name = '2. курс'
+        verbose_name_plural = '2. курсы'
 
     def related_courses(self):
         related_courses = Course.objects.filter(technologicals__icontains=self.technologicals)
@@ -61,8 +60,8 @@ class Chapter(models.Model):
     description = models.TextField()
     
     class Meta:
-        verbose_name = 'Глава'
-        verbose_name_plural = 'Главы'
+        verbose_name = '3. раздел'
+        verbose_name_plural = '3. раздел'
 
     def __str__(self):
         return self.title
@@ -74,8 +73,8 @@ class Module(models.Model):
     description = models.TextField(null=True,blank=True)
 
     class Meta:
-        verbose_name = 'модули'
-        verbose_name_plural = 'модули'
+        verbose_name = '4. модули'
+        verbose_name_plural = '4. модули'
 
     def __str__(self):
         return f'{self.title}'    
@@ -104,8 +103,8 @@ class Stage(models.Model):
     # comment = models.TextField(blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Глава'
-        verbose_name_plural = 'Главы'
+        verbose_name = 'этап'
+        verbose_name_plural = 'этап'
 
     def __str__(self):
         return self.title
