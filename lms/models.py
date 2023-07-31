@@ -6,7 +6,6 @@ from django.contrib.contenttypes.models import ContentType
 
 class CourseCategory(models.Model):
     title = models.CharField(max_length=150)
-    slug = models.SlugField(max_length=200,unique=True)
     description = models.TextField(max_length=1000)
 
     class Meta:
@@ -27,7 +26,6 @@ class Course(models.Model):
     description = models.TextField(null=True)
     course_image = models.ImageField(upload_to='course_images/', null=True)
     technologicals = models.TextField(blank=True, null=True)
-    slug = models.SlugField(max_length=200, unique=True)
     course_views = models.BigIntegerField(default=0)
 
     class Meta:
@@ -60,8 +58,8 @@ class Chapter(models.Model):
     description = models.TextField()
     
     class Meta:
-        verbose_name = '3. раздел'
-        verbose_name_plural = '3. раздел'
+        verbose_name = '3. Глава'
+        verbose_name_plural = '3. Глава'
 
     def __str__(self):
         return self.title
@@ -103,8 +101,8 @@ class Stage(models.Model):
     # comment = models.TextField(blank=True, null=True)
 
     class Meta:
-        verbose_name = 'этап'
-        verbose_name_plural = 'этап'
+        verbose_name = '5. этап'
+        verbose_name_plural = '5. этап'
 
     def __str__(self):
         return self.title

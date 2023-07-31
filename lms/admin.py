@@ -3,7 +3,7 @@ from . import models
 # Register your models here.
 class CourseCategoryAdmin(admin.ModelAdmin):
     list_display = ("title", "description",)
-    prepopulated_fields = {"slug": ("title",)}
+
 admin.site.register(models.CourseCategory, CourseCategoryAdmin)
 admin.site.register(models.Course)
 admin.site.register(models.Chapter)

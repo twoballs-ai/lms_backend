@@ -17,7 +17,7 @@ class CourseSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = models.Course
-        fields = ['id','category','teacher','title','description','course_image','technologicals','slug','course_chapters','related_courses','technological_list','total_enrolled_students', 'course_rating','course_views']
+        fields = ['id','category','teacher','title','description','course_image','technologicals','course_chapters','related_courses','technological_list','total_enrolled_students', 'course_rating','course_views']
         # depth = 1
 
     def __init__(self, *args, **kwargs):
@@ -34,6 +34,19 @@ class ChapterSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super(ChapterSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 1
+
+
+class ModuleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Module
+        fields = ['id','title', 'chapter','description']
+
+    def __init__(self, *args, **kwargs):
+        super(ModuleSerializer, self).__init__(*args, **kwargs)
         request = self.context.get('request')
         self.Meta.depth = 0
         if request and request.method == 'GET':
