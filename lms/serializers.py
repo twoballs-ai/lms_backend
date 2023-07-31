@@ -14,9 +14,10 @@ class CourseSerializer(serializers.ModelSerializer):
     # category_name = serializers.RelatedField(source='category', read_only=True)
     # category = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     # category = serializers.StringRelatedField(many=True)
+    
     class Meta:
         model = models.Course
-        fields = ['id','category','teacher','title','description','course_image','technologicals','course_chapters','related_courses','technological_list','total_enrolled_students', 'course_rating','course_views']
+        fields = ['id','category','teacher','title','description','course_image','technologicals','slug','course_chapters','related_courses','technological_list','total_enrolled_students', 'course_rating','course_views']
         # depth = 1
 
     def __init__(self, *args, **kwargs):
@@ -29,7 +30,14 @@ class CourseSerializer(serializers.ModelSerializer):
 class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Chapter
-        fields = ['id','course', 'title','description','video','comment']
+        fields = ['id','course', 'title','description', 'chapter_modules']
+
+    def __init__(self, *args, **kwargs):
+        super(ChapterSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 1
 
 
 class CourseEnrollSerializer(serializers.ModelSerializer):

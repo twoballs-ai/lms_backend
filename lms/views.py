@@ -8,6 +8,8 @@ from .serializers import CategorySerializer, CourseEnrollSerializer, \
     CourseSerializer, ChapterSerializer, CourseRatingSerializer, NotificationSerializer,  StudentFavoriteCourseSerializer, StudyMaterialSerializer, TaskForStudentsSerializer
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+
+
 class CategoryList(generics.ListCreateAPIView):
     queryset = models.CourseCategory.objects.all()
     serializer_class = CategorySerializer
