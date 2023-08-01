@@ -1,8 +1,11 @@
 from django.db import models
 from django.core import serializers
+
+
 # Create your models here.
 from user.models import Student, Teacher
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 class CourseCategory(models.Model):
     title = models.CharField(max_length=150)
@@ -77,28 +80,13 @@ class Module(models.Model):
     def __str__(self):
         return f'{self.title}'    
 
-
-
-# class Chapter(models.Model):
-#     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='course_modules')
-#     title = models.CharField(max_length=150)
-#     description = models.TextField()
-#     video = models.FileField(upload_to='chapter_videos/', null=True)
-#     comment = models.TextField(blank=True, null=True)
-
-#     class Meta:
-#         verbose_name = 'Глава'
-#         verbose_name_plural = 'Главы'
-
-#     def __str__(self):
-#         return self.title
-
 class Stage(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='stage_modules')
     title = models.CharField(max_length=150)
-    description = models.TextField()
+    description = models.TextField(null=True,blank=True)
     # video = models.FileField(upload_to='chapter_videos/', null=True)
     # comment = models.TextField(blank=True, null=True)
+    
 
     class Meta:
         verbose_name = '5. этап'
@@ -107,21 +95,6 @@ class Stage(models.Model):
     def __str__(self):
         return self.title
         
-
-class Content(models.Model):
-    stage = models.ForeignKey(Stage,
-                               related_name='contents',
-                               on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType,
-                                     on_delete=models.CASCADE,
-                                     limit_choices_to={'model__in':(
-                                     'text',
-                                     'video',
-                                     'image',
-                                     'file')})
-    object_id = models.PositiveIntegerField()
-
-
 
 class CourseEnroll(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name='enrolled_courses')

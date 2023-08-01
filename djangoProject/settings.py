@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'lms.apps.LmsConfig',
     'user.apps.UserConfig',
     'quiz.apps.QuizConfig',
+    'step_types.apps.StepTypesConfig'
 ]
 
 MIDDLEWARE = [

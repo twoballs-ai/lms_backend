@@ -43,7 +43,7 @@ class ChapterSerializer(serializers.ModelSerializer):
 class ModuleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Module
-        fields = ['id','title', 'chapter','description']
+        fields = ['id','title', 'chapter','description','stage_modules']
 
     def __init__(self, *args, **kwargs):
         super(ModuleSerializer, self).__init__(*args, **kwargs)
@@ -52,6 +52,17 @@ class ModuleSerializer(serializers.ModelSerializer):
         if request and request.method == 'GET':
             self.Meta.depth = 1
 
+class StageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Stage
+        fields = ['id','title', 'module','description']
+
+    def __init__(self, *args, **kwargs):
+        super(StageSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 1
 
 class CourseEnrollSerializer(serializers.ModelSerializer):
     class Meta:

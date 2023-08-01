@@ -5,7 +5,7 @@ from django.db.models import Q
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
 from .serializers import CategorySerializer, CourseEnrollSerializer, \
-    CourseSerializer, ChapterSerializer, CourseRatingSerializer, ModuleSerializer, NotificationSerializer,  StudentFavoriteCourseSerializer, StudyMaterialSerializer, TaskForStudentsSerializer
+    CourseSerializer, ChapterSerializer, CourseRatingSerializer, ModuleSerializer, NotificationSerializer, StageSerializer,  StudentFavoriteCourseSerializer, StudyMaterialSerializer, TaskForStudentsSerializer
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 
@@ -97,6 +97,15 @@ class ChapterModuleList(generics.ListCreateAPIView):
         chapter_id = self.kwargs['chapter_id']
         chapter = models.Chapter.objects.get(pk=chapter_id)
         return models.Module.objects.filter(chapter=chapter)
+    
+
+class ModuleStageList(generics.ListCreateAPIView):
+    serializer_class = StageSerializer
+
+    def get_queryset(self):
+        module_id = self.kwargs['module_id']
+        module = models.Module.objects.get(pk=module_id)
+        return models.Stage.objects.filter(module=module)
 
 
 # список всех подписок на курсы.
