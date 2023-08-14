@@ -2,23 +2,19 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 
-from lms.models import Stage
 from user.models import Teacher
-from lms.models import Stage
+
+import lms.models
 
 
+    
 class LessonType(models.Model):
-    # stage = models.OneToOneField(Stage, on_delete=models.CASCADE)
-    pass
+    stage = models.OneToOneField(lms.models.Stage, on_delete=models.CASCADE)
     
-    
+
 
 
 class ClassicLesson(LessonType):
-    place_ptr = models.ForeignKey(
-    LessonType, on_delete=models.CASCADE, related_name='plas'
-)
-    # stage = models.OneToOneField(Stage, on_delete=models.CASCADE)
     image = models.FileField(upload_to='images',null=True,blank=True)
     content = models.TextField(null=True,blank=True)
     file = models.FileField(upload_to='files',null=True,blank=True)
@@ -27,7 +23,6 @@ class ClassicLesson(LessonType):
 
 
 class Quiz(LessonType):
-    # stage = models.OneToOneField(Stage, on_delete = models.CASCADE)
     questions= models.CharField(max_length=150)
     answer1= models.CharField(max_length=150)
     true_answer=models.CharField(max_length=150)

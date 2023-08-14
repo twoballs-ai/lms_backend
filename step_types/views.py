@@ -13,5 +13,5 @@ from rest_framework.pagination import PageNumberPagination
 
 
 class ClassicLessonList(generics.ListCreateAPIView):
-    queryset = models.ClassicLesson.objects.all()
+    # queryset = models.ClassicLesson.objects.all()
     serializer_class = ClassicLessonSerializer

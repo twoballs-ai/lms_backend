@@ -2,6 +2,7 @@ from django.db import models
 from django.core import serializers
 
 
+
 # Create your models here.
 from user.models import Student, Teacher
 from django.contrib.contenttypes.models import ContentType
@@ -79,22 +80,29 @@ class Module(models.Model):
 
     def __str__(self):
         return f'{self.title}'    
-
+    
 class Stage(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='stage_modules')
     title = models.CharField(max_length=150)
     description = models.TextField(null=True,blank=True)
+    
     # video = models.FileField(upload_to='chapter_videos/', null=True)
     # comment = models.TextField(blank=True, null=True)
     
-
+    def is_upperclass(self):
+        return self.lesson_type in {self.CLASSIC_TYPE}
+    
     class Meta:
         verbose_name = '5. этап'
         verbose_name_plural = '5. этап'
 
     def __str__(self):
         return self.title
-        
+
+
+
+
+
 
 class CourseEnroll(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name='enrolled_courses')
