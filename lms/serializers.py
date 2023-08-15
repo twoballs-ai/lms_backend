@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from . import models
-
-
+import step_types.serializers
+import step_types.models
 class CategorySerializer(serializers.ModelSerializer):
     # categories = serializers.StringRelatedField(many=True)
     # category_course = serializers.StringRelatedField(many=True)
@@ -53,9 +53,11 @@ class ModuleSerializer(serializers.ModelSerializer):
             self.Meta.depth = 1
 
 class StageSerializer(serializers.ModelSerializer):
+   
     class Meta:
         model = models.Stage
-        fields = ['id','title', 'module','description']
+        fields = ['id','title', 'module','description','type_lesson']
+
 
     def __init__(self, *args, **kwargs):
         super(StageSerializer, self).__init__(*args, **kwargs)

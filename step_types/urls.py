@@ -4,7 +4,7 @@ from step_types import views
 
 urlpatterns = [
     # квизы
-    path('class/', views.ClassicLessonList.as_view()),
+    path('lesson/<int:stage_id>', views.ClassicLessonList.as_view()),
 
 ]
 

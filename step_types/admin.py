@@ -5,4 +5,4 @@ from . import models
 
 admin.site.register(models.ClassicLesson)
 admin.site.register(models.Quiz)
-# admin.site.register(models.LessonType)
+admin.site.register(models.LessonType)

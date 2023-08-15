@@ -100,10 +100,6 @@ class Stage(models.Model):
         return self.title
 
 
-
-
-
-
 class CourseEnroll(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name='enrolled_courses')
     student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='enrolled_students')
