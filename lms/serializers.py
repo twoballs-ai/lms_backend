@@ -41,6 +41,7 @@ class ChapterSerializer(serializers.ModelSerializer):
 
 
 class ModuleSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = models.Module
         fields = ['id','title', 'chapter','description','stage_modules']
@@ -53,18 +54,26 @@ class ModuleSerializer(serializers.ModelSerializer):
             self.Meta.depth = 1
 
 class StageSerializer(serializers.ModelSerializer):
-   
+    # serializer = step_types.serializers.ClassicLessonSerializer(many=True, read_only=True)  
+    type = serializers.SerializerMethodField('get_type')
+
     class Meta:
         model = models.Stage
-        fields = ['id','title', 'module','description','type_lesson']
+        fields = ['id','title', 'module','description','type']
+    def get_type(self, obj):
+        queryset = step_types.models.ClassicLesson.objects.filter(stage=obj)
+        if queryset := step_types.models.Quiz.objects.filter(stage=obj).first():
+            return step_types.serializers.QuizLessonSerializer(queryset).data
+        elif queryset := step_types.models.ClassicLesson.objects.filter(stage=obj).first():
+            return step_types.serializers.ClassicLessonSerializer(queryset).data
 
 
-    def __init__(self, *args, **kwargs):
-        super(StageSerializer, self).__init__(*args, **kwargs)
-        request = self.context.get('request')
-        self.Meta.depth = 0
-        if request and request.method == 'GET':
-            self.Meta.depth = 1
+    # def __init__(self, *args, **kwargs):
+    #     super(StageSerializer, self).__init__(*args, **kwargs)
+    #     request = self.context.get('request')
+    #     self.Meta.depth = 0
+    #     if request and request.method == 'GET':
+    #         self.Meta.depth = 1
 
 class CourseEnrollSerializer(serializers.ModelSerializer):
     class Meta:

@@ -89,9 +89,7 @@ class Stage(models.Model):
     # video = models.FileField(upload_to='chapter_videos/', null=True)
     # comment = models.TextField(blank=True, null=True)
     
-    def is_upperclass(self):
-        return self.lesson_type in {self.CLASSIC_TYPE}
-    
+
     class Meta:
         verbose_name = '5. этап'
         verbose_name_plural = '5. этап'

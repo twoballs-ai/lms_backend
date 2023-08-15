@@ -105,6 +105,7 @@ class ModuleStageList(generics.ListCreateAPIView):
     def get_queryset(self):
         module_id = self.kwargs['module_id']
         module = models.Module.objects.get(pk=module_id)
+        
         return models.Stage.objects.filter(module=module)
 
 
