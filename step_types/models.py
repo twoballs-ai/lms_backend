@@ -14,6 +14,7 @@ class LessonType(models.Model):
 
 
 class ClassicLesson(LessonType):
+    is_classic = models.BooleanField(default=True)
     image = models.FileField(upload_to='images',null=True,blank=True)
     content = models.TextField(null=True,blank=True)
     file = models.FileField(upload_to='files',null=True,blank=True)
@@ -22,8 +23,12 @@ class ClassicLesson(LessonType):
 
 
 class Quiz(LessonType):
+    is_quiz = models.BooleanField(default=True)
     questions= models.CharField(max_length=150)
     answer1= models.CharField(max_length=150)
+    answer2= models.CharField(max_length=150)
+    answer3= models.CharField(max_length=150)
+    answer4= models.CharField(max_length=150)
     true_answer=models.CharField(max_length=150)
 
 
