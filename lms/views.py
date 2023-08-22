@@ -107,7 +107,10 @@ class ModuleStageList(generics.ListCreateAPIView):
         module = models.Module.objects.get(pk=module_id)
         
         return models.Stage.objects.filter(module=module)
-
+    
+class ModuleStageDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Stage.objects.all()
+    serializer_class = StageSerializer
 
 # список всех подписок на курсы.
 class StudenEnrollList(generics.ListCreateAPIView):
