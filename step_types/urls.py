@@ -6,6 +6,7 @@ urlpatterns = [
     # квизы
     path('classic-lesson/<int:stage_id>', views.ClassicLessonList.as_view()),
     path('quiz-lesson/<int:stage_id>', views.QuizLessonList.as_view()),
+    path('video-lesson/<int:stage_id>', views.VideoLessonList.as_view()),
 
 ]
 

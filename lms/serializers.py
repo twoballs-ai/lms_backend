@@ -66,7 +66,8 @@ class StageSerializer(serializers.ModelSerializer):
             return step_types.serializers.QuizLessonSerializer(queryset).data
         elif queryset := step_types.models.ClassicLesson.objects.filter(stage=obj).first():
             return step_types.serializers.ClassicLessonSerializer(queryset).data
-
+        elif queryset := step_types.models.Video.objects.filter(stage=obj).first():
+            return step_types.serializers.VideoLessonSerializer(queryset).data
 
     # def __init__(self, *args, **kwargs):
     #     super(StageSerializer, self).__init__(*args, **kwargs)

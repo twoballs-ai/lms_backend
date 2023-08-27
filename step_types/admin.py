@@ -5,4 +5,5 @@ from . import models
 
 admin.site.register(models.ClassicLesson)
 admin.site.register(models.Quiz)
+admin.site.register(models.Video)
 admin.site.register(models.LessonType)

@@ -32,5 +32,9 @@ class Quiz(LessonType):
     true_answer=models.CharField(max_length=150)
 
 
+class Video(LessonType):
+    is_video = models.BooleanField(default=True)
+    video_lesson= models.URLField()
+    description= models.CharField(max_length=150)
 
 

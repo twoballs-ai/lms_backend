@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from step_types.serializers import ClassicLessonSerializer, QuizLessonSerializer
+from step_types.serializers import ClassicLessonSerializer, QuizLessonSerializer, VideoLessonSerializer
 from . import models
 from django.db.models import Q
 # Create your views here.
@@ -28,3 +28,12 @@ class QuizLessonList(generics.ListCreateAPIView):
         stage_id = self.kwargs['stage_id']
         stage = lms.models.Stage.objects.get(pk=stage_id)
         return models.Quiz.objects.filter(stage=stage)
+    
+
+class VideoLessonList(generics.ListCreateAPIView):
+    serializer_class = VideoLessonSerializer
+
+    def get_queryset(self):
+        stage_id = self.kwargs['stage_id']
+        stage = lms.models.Stage.objects.get(pk=stage_id)
+        return models.Video.objects.filter(stage=stage)
