@@ -24,7 +24,7 @@ class ClassicLessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ClassicLesson
         # fields = "__all__"
-        fields = ['id','stage','is_classic','image','content','file','video_link','url_link']
+        fields = ['id','stage','is_classic','content']
 
 
 class QuizLessonSerializer(serializers.ModelSerializer):

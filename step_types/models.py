@@ -15,11 +15,8 @@ class LessonType(models.Model):
 
 class ClassicLesson(LessonType):
     is_classic = models.BooleanField(default=True)
-    image = models.FileField(upload_to='images',null=True,blank=True)
-    content = models.TextField(null=True,blank=True)
-    file = models.FileField(upload_to='files',null=True,blank=True)
-    video_link = models.URLField(null=True,blank=True)
-    url_link = models.URLField(null=True,blank=True)
+    content = models.JSONField(null=True, blank=True, default=dict)
+
 
 
 class Quiz(LessonType):
