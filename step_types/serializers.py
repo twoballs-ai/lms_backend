@@ -32,7 +32,7 @@ class QuizLessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Quiz
         # fields = "__all__"
-        fields = ['id','stage','is_quiz','questions','answer1','answer2','answer3','answer4','true_answer']
+        fields = ['id','stage','is_quiz','content','answer1','answer2','answer3','answer4','true_answer']
 
 
 class VideoLessonSerializer(serializers.ModelSerializer):
@@ -40,4 +40,4 @@ class VideoLessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Video
         # fields = "__all__"
-        fields = ['id','stage','is_video','video_lesson','description']
+        fields = ['id','stage','is_video','video_lesson']

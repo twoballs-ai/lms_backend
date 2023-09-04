@@ -21,7 +21,7 @@ class ClassicLesson(LessonType):
 
 class Quiz(LessonType):
     is_quiz = models.BooleanField(default=True)
-    questions= models.CharField(max_length=150)
+    content = models.JSONField(null=True, blank=True, default=dict)
     answer1= models.CharField(max_length=150)
     answer2= models.CharField(max_length=150)
     answer3= models.CharField(max_length=150)
@@ -32,6 +32,6 @@ class Quiz(LessonType):
 class Video(LessonType):
     is_video = models.BooleanField(default=True)
     video_lesson= models.URLField()
-    description= models.CharField(max_length=150)
+
 
 

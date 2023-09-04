@@ -19,7 +19,11 @@ class ClassicLessonList(generics.ListCreateAPIView):
         stage_id = self.kwargs['stage_id']
         stage = lms.models.Stage.objects.get(pk=stage_id)
         return models.ClassicLesson.objects.filter(stage=stage)
-    
+
+class ClassicLessonDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.ClassicLesson.objects.all()
+    serializer_class = ClassicLessonSerializer
+
 
 class QuizLessonList(generics.ListCreateAPIView):
     serializer_class = QuizLessonSerializer
@@ -37,3 +41,8 @@ class VideoLessonList(generics.ListCreateAPIView):
         stage_id = self.kwargs['stage_id']
         stage = lms.models.Stage.objects.get(pk=stage_id)
         return models.Video.objects.filter(stage=stage)
+    
+    
+class VideoLessonDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Video.objects.all()
+    serializer_class = VideoLessonSerializer
