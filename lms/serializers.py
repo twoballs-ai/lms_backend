@@ -59,7 +59,7 @@ class StageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Stage
-        fields = ['id','title', 'module','description','type']
+        fields = ['id', 'module','type', 'stage_numbers']
     def get_type(self, obj):
         queryset = step_types.models.ClassicLesson.objects.filter(stage=obj)
         if queryset := step_types.models.Quiz.objects.filter(stage=obj).first():

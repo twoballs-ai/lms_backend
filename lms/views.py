@@ -109,8 +109,15 @@ class ModuleStageList(generics.ListCreateAPIView):
         return models.Stage.objects.filter(module=module)
     
 class ModuleStageDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = models.Stage.objects.all()
+    # queryset = models.Stage.objects.all()
     serializer_class = StageSerializer
+    lookup_field = "stage_numbers"
+    def get_queryset(self):
+        module_id = self.kwargs['module_id']
+        # stage_numbers = self.kwargs['stage_numbers']
+        module = models.Module.objects.get(pk=module_id)
+        return models.Stage.objects.filter(module=module)
+    
 
 # список всех подписок на курсы.
 class StudenEnrollList(generics.ListCreateAPIView):

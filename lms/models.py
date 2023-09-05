@@ -82,9 +82,9 @@ class Module(models.Model):
         return f'{self.title}'    
     
 class Stage(models.Model):
+    stage_numbers= models.PositiveSmallIntegerField()
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='stage_modules')
-    title = models.CharField(max_length=150)
-    description = models.TextField(null=True,blank=True)
+
     
     # video = models.FileField(upload_to='chapter_videos/', null=True)
     # comment = models.TextField(blank=True, null=True)
@@ -95,7 +95,7 @@ class Stage(models.Model):
         verbose_name_plural = '5. этап'
 
     def __str__(self):
-        return self.title
+        return f"{self.module}-{self.stage_numbers}"   
 
 
 class CourseEnroll(models.Model):

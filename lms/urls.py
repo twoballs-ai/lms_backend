@@ -18,7 +18,7 @@ urlpatterns = [
     path('course-chapter/<int:course_id>', views.CourseChapterList.as_view()),
     path('chapter-module/<int:chapter_id>', views.ChapterModuleList.as_view()),
     path('module-stage/<int:module_id>', views.ModuleStageList.as_view()),
-    path('module-stage-detail/<int:pk>', views.ModuleStageDetail.as_view()),
+    path('module-stage-detail/<int:module_id>/<int:stage_numbers>', views.ModuleStageDetail.as_view()),
 
     path('teacher-courses/<int:teacher_id>', views.TeacherCourseList.as_view()),
     path('teacher-courses-detail/<int:pk>', views.TeacherCourseDetail.as_view()),
