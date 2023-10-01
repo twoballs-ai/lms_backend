@@ -59,7 +59,7 @@ class StageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Stage
-        fields = ['id', 'module','type', 'stage_numbers']
+        fields = ['id', 'module','type']
     def get_type(self, obj):
         queryset = step_types.models.ClassicLesson.objects.filter(stage=obj)
         if queryset := step_types.models.Quiz.objects.filter(stage=obj).first():
@@ -79,7 +79,7 @@ class StageSerializer(serializers.ModelSerializer):
 class CourseEnrollSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseEnroll
-        fields = ['id','course', 'student', 'enrolled_time']   
+        fields = ['id','course', 'student', 'enrolled_time','student_course_first_module']   
         # depth = 1
 
     def __init__(self, *args, **kwargs):
@@ -97,6 +97,20 @@ class StudentFavoriteCourseSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super(StudentFavoriteCourseSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 2            
+
+
+class TotalStudentScoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.TotalStudentScore
+        fields = ['id','student', 'total_student_score']   
+        # depth = 1
+
+    def __init__(self, *args, **kwargs):
+        super(TotalStudentScoreSerializer, self).__init__(*args, **kwargs)
         request = self.context.get('request')
         self.Meta.depth = 0
         if request and request.method == 'GET':

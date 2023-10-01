@@ -34,6 +34,11 @@ class QuizLessonList(generics.ListCreateAPIView):
         return models.Quiz.objects.filter(stage=stage)
     
 
+class QuizLessonDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Quiz.objects.all()
+    serializer_class = QuizLessonSerializer
+
+
 class VideoLessonList(generics.ListCreateAPIView):
     serializer_class = VideoLessonSerializer
 

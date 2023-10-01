@@ -37,5 +37,5 @@ class StudentSerializer(serializers.ModelSerializer):
 class StudentDashboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Student
-        fields = ['total_student_enroll_courses','total_favorite_courses','total_completed_tasks', 'total_pending_tasks']
+        fields = ['total_student_enroll_courses','total_student_score','total_student_energy','total_favorite_courses','total_completed_tasks', 'total_pending_tasks']
 

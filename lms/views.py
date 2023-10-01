@@ -5,7 +5,7 @@ from django.db.models import Q
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
 from .serializers import CategorySerializer, CourseEnrollSerializer, \
-    CourseSerializer, ChapterSerializer, CourseRatingSerializer, ModuleSerializer, NotificationSerializer, StageSerializer,  StudentFavoriteCourseSerializer, StudyMaterialSerializer, TaskForStudentsSerializer
+    CourseSerializer, ChapterSerializer, CourseRatingSerializer, ModuleSerializer, NotificationSerializer, StageSerializer,  StudentFavoriteCourseSerializer, StudyMaterialSerializer, TaskForStudentsSerializer, TotalStudentScoreSerializer
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 
@@ -111,7 +111,7 @@ class ModuleStageList(generics.ListCreateAPIView):
 class ModuleStageDetail(generics.RetrieveUpdateDestroyAPIView):
     # queryset = models.Stage.objects.all()
     serializer_class = StageSerializer
-    lookup_field = "stage_numbers"
+
     def get_queryset(self):
         module_id = self.kwargs['module_id']
         # stage_numbers = self.kwargs['stage_numbers']
@@ -183,7 +183,18 @@ def rating_course_status(request, student_id, course_id):
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})
-    
+
+
+class StudentTotalScore(generics.ListCreateAPIView):
+    queryset = models.TotalStudentScore.objects.all()
+    serializer_class = TotalStudentScoreSerializer
+    def get_queryset(self):
+        if 'student_id' in self.kwargs:
+            student_id = self.kwargs['student_id']
+            student = models.Student.objects.get(pk=student_id)
+            return models.TotalStudentScore.objects.filter(student= student).distinct()  
+ 
+
 class StudentFavoriteCourse(generics.ListCreateAPIView):
     queryset = models.FavoriteCourse.objects.all()
     serializer_class = StudentFavoriteCourseSerializer
@@ -194,7 +205,17 @@ class StudentFavoriteCourse(generics.ListCreateAPIView):
             student = models.Student.objects.get(pk=student_id)
             return models.FavoriteCourse.objects.filter(student= student).distinct()  
  
- 
+
+# def delete_ghost_stages(request, course_id):
+#     chapters = models.Chapter.objects.filter(course_id=course_id)
+#     # if rating_status:
+#     for chapter in chapters:
+#         print(chapter)
+    
+#     return JsonResponse({'bool': True})
+#     # else:
+#     #     return JsonResponse({'bool': False})
+    
 
 def get_favorite_status(request, student_id, course_id):
     student = models.Student.objects.filter(id = student_id).first()

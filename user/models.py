@@ -55,6 +55,18 @@ class Student(models.Model):
         verbose_name = 'ученик'
         verbose_name_plural = 'ученики'
 
+    def total_student_score(self):
+        student_score= lms.models.TotalStudentScore.objects.get_or_create(student=self)[0]
+        student_score = student_score.total_student_score
+        return student_score
+    
+    def total_student_energy(self):
+        student_energy= lms.models.TotalStudentEnergy.objects.get_or_create(student=self)[0]
+        print(student_energy)
+        student_energy = student_energy.total_student_energy
+        print(student_energy)
+        return student_energy
+
     def total_student_enroll_courses(self):
         enrolled_courses= lms.models.CourseEnroll.objects.filter(student = self).count()
         return enrolled_courses

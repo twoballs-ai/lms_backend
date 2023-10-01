@@ -82,7 +82,6 @@ class Module(models.Model):
         return f'{self.title}'    
     
 class Stage(models.Model):
-    stage_numbers= models.PositiveSmallIntegerField()
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='stage_modules')
 
     
@@ -95,7 +94,7 @@ class Stage(models.Model):
         verbose_name_plural = '5. этап'
 
     def __str__(self):
-        return f"{self.module}-{self.stage_numbers}"   
+        return f"{self.module}"   
 
 
 class CourseEnroll(models.Model):
@@ -109,6 +108,13 @@ class CourseEnroll(models.Model):
 
     def __str__(self):
         return f"{self.course}-{self.student}"   
+# Эта функция необходима для перехода на первый модуль первого урока курса 
+    def student_course_first_module(self):
+        student_course_first_module = Chapter.objects.filter(course= self.course).first()
+        course_module = Module.objects.filter(chapter = student_course_first_module).values_list('pk', flat=True).first()
+        first_module_stage_pk = Stage.objects.filter(module = course_module).values_list('pk', flat=True).first()
+        print(first_module_stage_pk)
+        return {'first_module_pk':course_module,'first_stage_pk':first_module_stage_pk}
     
 
 class CourseRating(models.Model):
@@ -124,6 +130,30 @@ class CourseRating(models.Model):
 
     def __str__(self):
         return f"{self.course}-{self.student}-{self.rating}"   
+    
+
+class TotalStudentScore(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='total_score_students')
+    total_student_score = models.PositiveBigIntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Баллы ученика'
+        verbose_name_plural = 'Баллы ученика'
+
+    def __str__(self):
+        return f"{self.student}-{self.total_student_score}"       
+
+
+class TotalStudentEnergy(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='total_energy_students')
+    total_student_energy = models.PositiveBigIntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Энергия ученика'
+        verbose_name_plural = 'Энергия ученика'
+
+    def __str__(self):
+        return f"{self.student}-{self.total_student_energy}"       
     
 
 class FavoriteCourse(models.Model):
@@ -169,6 +199,7 @@ class Notification(models.Model):
         verbose_name_plural = 'Оповещения'
 
 
+
 class StudyMaterial(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
@@ -183,3 +214,5 @@ class StudyMaterial(models.Model):
     def __str__(self):
         return self.title
         
+
+# class stageScore(models.Model):

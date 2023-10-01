@@ -7,6 +7,7 @@ urlpatterns = [
     path('classic-lesson/<int:stage_id>', views.ClassicLessonList.as_view()),
     path('classic-lesson-detail/<int:pk>', views.ClassicLessonDetail.as_view()),
     path('quiz-lesson/<int:stage_id>', views.QuizLessonList.as_view()),
+    path('quiz-lesson-detail/<int:pk>', views.QuizLessonDetail.as_view()),
     path('video-lesson/<int:stage_id>', views.VideoLessonList.as_view()),
     path('video-lesson-detail/<int:pk>', views.VideoLessonDetail.as_view()),
 

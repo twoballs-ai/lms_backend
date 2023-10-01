@@ -10,7 +10,6 @@ urlpatterns = [
     path('popular-courses/', views.CourseRatingList.as_view()),
     path('search-by-course/<str:search_string>', views.CourseList.as_view()),
     path('update-view/<int:course_id>', views.update_view),
-    path('student-testimonial/', views.CourseRatingList.as_view()),
     # просмотр курса по айди:
     path('course/<int:pk>', views.CourseDetailView.as_view()),
     # добавление глав
@@ -18,7 +17,7 @@ urlpatterns = [
     path('course-chapter/<int:course_id>', views.CourseChapterList.as_view()),
     path('chapter-module/<int:chapter_id>', views.ChapterModuleList.as_view()),
     path('module-stage/<int:module_id>', views.ModuleStageList.as_view()),
-    path('module-stage-detail/<int:module_id>/<int:stage_numbers>', views.ModuleStageDetail.as_view()),
+    path('module-stage-detail/<int:module_id>/<int:pk>', views.ModuleStageDetail.as_view()),
 
     path('teacher-courses/<int:teacher_id>', views.TeacherCourseList.as_view()),
     path('teacher-courses-detail/<int:pk>', views.TeacherCourseDetail.as_view()),
@@ -45,6 +44,9 @@ urlpatterns = [
     path('study-material/<int:pk>', views.StudyMaterialDetail.as_view()),
     path('student/study-materials/<int:course_id>', views.StudentStudyMaterialList.as_view()),
 
+# удаление пустых уроков
+    # path('delete-ghost-stages/<int:course_id>', views.delete_ghost_stages),
+    path('change_total_score', views.StudentTotalScore.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

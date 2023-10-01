@@ -34,4 +34,7 @@ class Video(LessonType):
     video_lesson= models.URLField()
 
 
+class ProgramingLesson(LessonType):
+    is_programming = models.BooleanField(default=True)
+    content = models.JSONField(null=True, blank=True, default=dict)
 
