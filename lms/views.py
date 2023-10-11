@@ -5,7 +5,7 @@ from django.db.models import Q
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
 from .serializers import CategorySerializer, CourseEnrollSerializer, \
-    CourseSerializer, ChapterSerializer, CourseRatingSerializer, ModuleSerializer, NotificationSerializer, StageSerializer,  StudentFavoriteCourseSerializer, StudyMaterialSerializer, TaskForStudentsSerializer, TotalStudentScoreSerializer
+    CourseSerializer, ChapterSerializer, CourseRatingSerializer, ModuleSerializer, NotificationSerializer, StagePassSerializer, StageSerializer,  StudentFavoriteCourseSerializer, StudentStageSerializer, StudyMaterialSerializer, TaskForStudentsSerializer, TotalStudentScoreSerializer
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 
@@ -108,6 +108,23 @@ class ModuleStageList(generics.ListCreateAPIView):
         
         return models.Stage.objects.filter(module=module)
     
+    
+class StudentModuleStageList(generics.ListAPIView):
+    serializer_class = StudentStageSerializer
+
+    def get_queryset(self):
+        # print(self)
+        module_id = self.kwargs['module_id']
+        student_id = self.kwargs['student_id']
+        module = models.Module.objects.get(pk=module_id)
+        stages_list = models.Stage.objects.filter(module=module) 
+        for i in stages_list:
+            models.StagePass.objects.get_or_create(stage_id=i.pk, student_id= student_id) 
+        # stage_pass_list = models.StagePass.objects.filter(student_id=student_id) 
+        # print(stages_list)
+        return stages_list 
+    
+
 class ModuleStageDetail(generics.RetrieveUpdateDestroyAPIView):
     # queryset = models.Stage.objects.all()
     serializer_class = StageSerializer
@@ -118,6 +135,10 @@ class ModuleStageDetail(generics.RetrieveUpdateDestroyAPIView):
         module = models.Module.objects.get(pk=module_id)
         return models.Stage.objects.filter(module=module)
     
+    
+class StagePassDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.StagePass.objects.all()
+    serializer_class = StagePassSerializer
 
 # список всех подписок на курсы.
 class StudenEnrollList(generics.ListCreateAPIView):

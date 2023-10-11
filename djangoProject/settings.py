@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1 
 
 # Application definition
 
@@ -37,6 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # "allauth",
+    # "allauth.account",
+    # "allauth.socialaccount",
+
+    # "dj_rest_auth",
+    # "dj_rest_auth.registration",
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -45,7 +54,7 @@ INSTALLED_APPS = [
     'lms.apps.LmsConfig',
     'user.apps.UserConfig',
     'quiz.apps.QuizConfig',
-    'step_types.apps.StepTypesConfig'
+    'step_types.apps.StepTypesConfig',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'djangoProject.urls'
@@ -110,6 +120,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'user.CustomUser'
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -117,10 +129,11 @@ REST_FRAMEWORK = {
     ]
 }
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 

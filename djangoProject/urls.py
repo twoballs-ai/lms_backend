@@ -22,14 +22,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('user.urls')),
-    path('api/', include('lms.urls')),
-    path('api-quiz/', include('quiz.urls')),
-    path('api-types/', include('step_types.urls')),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api/lms/', include('lms.urls')),
+    path('api/quiz/', include('quiz.urls')),
+    path('api/types/', include('step_types.urls')),
 
 
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL,
+#                           document_root=settings.MEDIA_ROOT)

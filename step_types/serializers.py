@@ -35,6 +35,14 @@ class QuizLessonSerializer(serializers.ModelSerializer):
         fields = ['id','stage','is_quiz','content','answer1','answer2','answer3','answer4','true_answer']
 
 
+class StudentQuizLessonSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Quiz
+        # fields = "__all__"
+        fields = ['id','stage','is_quiz','content','answer1','answer2','answer3','answer4']
+
+
 class VideoLessonSerializer(serializers.ModelSerializer):
 
     class Meta:

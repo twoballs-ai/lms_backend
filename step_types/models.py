@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 
-from user.models import Teacher
+# from user.models import Teacher
 
 import lms.models
 
@@ -10,6 +10,7 @@ import lms.models
     
 class LessonType(models.Model):
     stage = models.OneToOneField(lms.models.Stage, on_delete=models.CASCADE, related_name='type_lesson')
+
     
 
 

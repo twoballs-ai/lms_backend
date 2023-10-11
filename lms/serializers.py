@@ -61,21 +61,48 @@ class StageSerializer(serializers.ModelSerializer):
         model = models.Stage
         fields = ['id', 'module','type']
     def get_type(self, obj):
-        queryset = step_types.models.ClassicLesson.objects.filter(stage=obj)
         if queryset := step_types.models.Quiz.objects.filter(stage=obj).first():
             return step_types.serializers.QuizLessonSerializer(queryset).data
         elif queryset := step_types.models.ClassicLesson.objects.filter(stage=obj).first():
             return step_types.serializers.ClassicLessonSerializer(queryset).data
         elif queryset := step_types.models.Video.objects.filter(stage=obj).first():
             return step_types.serializers.VideoLessonSerializer(queryset).data
+        else: 
+            return "не назначен"
+       
+class StagePassSerializer (serializers.ModelSerializer):
+    
+    class Meta:
+        fields = ('id', 'student', 'stage', 'is_passed')
+        model = models.StagePass
+    
+class StudentStageSerializer(serializers.ModelSerializer):
+    # serializer = step_types.serializers.ClassicLessonSerializer(many=True, read_only=True)  
+    type = serializers.SerializerMethodField('get_type')
+    pass_items = serializers.SerializerMethodField()
+    class Meta:
+        model = models.Stage
+        fields = ['id', 'module','type', 'pass_items']
+    def get_type(self, obj):
+        if queryset := step_types.models.Quiz.objects.filter(stage=obj).first(): 
+            return step_types.serializers.StudentQuizLessonSerializer(queryset).data
+        elif queryset := step_types.models.ClassicLesson.objects.filter(stage=obj).first():
+            return step_types.serializers.ClassicLessonSerializer(queryset).data
+        elif queryset := step_types.models.Video.objects.filter(stage=obj).first():
+            return step_types.serializers.VideoLessonSerializer(queryset).data
+        else: 
+            return "не назначен"
+            
+    def get_pass_items(self, obj):
+        request = self.context.get("request")
+        student_id = request.parser_context['kwargs']['student_id']
+        stage_pass_query = models.StagePass.objects.filter(
+            stage=obj, student= student_id)
+        serializer = StagePassSerializer(stage_pass_query, many=True)
+    
+        return serializer.data    
 
-    # def __init__(self, *args, **kwargs):
-    #     super(StageSerializer, self).__init__(*args, **kwargs)
-    #     request = self.context.get('request')
-    #     self.Meta.depth = 0
-    #     if request and request.method == 'GET':
-    #         self.Meta.depth = 1
-
+   
 class CourseEnrollSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseEnroll

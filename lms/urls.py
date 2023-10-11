@@ -45,7 +45,10 @@ urlpatterns = [
     path('student/study-materials/<int:course_id>', views.StudentStudyMaterialList.as_view()),
 
 # удаление пустых уроков
-    # path('delete-ghost-stages/<int:course_id>', views.delete_ghost_stages),
+# блок прохождения курса.
+# функция дублер
+    path('student-module-stage-list/<int:module_id>/<int:student_id>', views.StudentModuleStageList.as_view()),
+    path('student-stage-pass/<int:pk>', views.StagePassDetail.as_view()),
     path('change_total_score', views.StudentTotalScore.as_view()),
 ]
 

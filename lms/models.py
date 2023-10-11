@@ -4,7 +4,7 @@ from django.core import serializers
 
 
 # Create your models here.
-from user.models import Student, Teacher
+# from user.models import Student, Teacher
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
@@ -25,7 +25,7 @@ class CourseCategory(models.Model):
 
 class Course(models.Model):
     category = models.ForeignKey(CourseCategory,on_delete=models.CASCADE , related_name='category_course')
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_course')
+    # teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_course')
     title = models.CharField(max_length=150)
     description = models.TextField(null=True)
     course_image = models.ImageField(upload_to='course_images/', null=True)
@@ -84,22 +84,39 @@ class Module(models.Model):
 class Stage(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='stage_modules')
 
-    
-    # video = models.FileField(upload_to='chapter_videos/', null=True)
-    # comment = models.TextField(blank=True, null=True)
-    
-
     class Meta:
         verbose_name = '5. этап'
         verbose_name_plural = '5. этап'
 
+    # def get_stage_pass_status(self):
+    #     get_stage_pass_status = StagePass.objects.filter(stage=self.pk)
+    #     return serializers.serialize('json',get_stage_pass_status)
+
+
+    
     def __str__(self):
         return f"{self.module}"   
+    
+
+
+class StagePass(models.Model):
+    stage = models.ForeignKey(Stage, on_delete=models.CASCADE, related_name='stage_stage_pass')
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='stage_passed_students')
+    is_passed = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'пройденные уроки'
+        verbose_name_plural = 'пройденные уроки'
+
+
+    def __str__(self):
+        return f"{self.student}-{self.stage}-{self.is_passed}"   
+
 
 
 class CourseEnroll(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name='enrolled_courses')
-    student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='enrolled_students')
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='enrolled_students')
     enrolled_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -119,7 +136,7 @@ class CourseEnroll(models.Model):
 
 class CourseRating(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='rating_courses')
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='rating_students')
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='rating_students')
     rating = models.PositiveBigIntegerField(default=0)
     review = models.TextField(null=True)
     review_time = models.DateTimeField(auto_now_add=True)
@@ -133,7 +150,7 @@ class CourseRating(models.Model):
     
 
 class TotalStudentScore(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='total_score_students')
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='total_score_students')
     total_student_score = models.PositiveBigIntegerField(default=0)
 
     class Meta:
@@ -145,8 +162,8 @@ class TotalStudentScore(models.Model):
 
 
 class TotalStudentEnergy(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='total_energy_students')
-    total_student_energy = models.PositiveBigIntegerField(default=0)
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='total_energy_students')
+    total_student_energy = models.PositiveBigIntegerField(default=100)
 
     class Meta:
         verbose_name = 'Энергия ученика'
@@ -158,7 +175,7 @@ class TotalStudentEnergy(models.Model):
 
 class FavoriteCourse(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='favorite_courses')
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='favorite_students')
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='favorite_students')
     is_favorite = models.BooleanField(default=False)
 
     class Meta:
@@ -170,8 +187,8 @@ class FavoriteCourse(models.Model):
     
 
 class TaskForStudentsFromTeacher(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='tasks_student')
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='tasks_teacher')
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='tasks_student')
+    # teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='tasks_teacher')
     complete_status = models.BooleanField(default=False, null=True)
     title = models.CharField(max_length=150)
     detail = models.TextField(null=True)
@@ -186,8 +203,8 @@ class TaskForStudentsFromTeacher(models.Model):
     
 
 class Notification(models.Model):
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    # teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+    # student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
     # notification_text= models.TextField(verbose_name='Notification Text')
     notification_subject= models.CharField(max_length=150, verbose_name='Notification Subject', null=True)
     notification_for= models.CharField(max_length=150, verbose_name='Notification For', null=True)

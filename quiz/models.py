@@ -1,11 +1,11 @@
 from django.db import models
 from django.core import serializers
-from user.models import Student, Teacher
+# from user.models import Student, Teacher
 import lms.models
 from lms.models import Course
 # Create your models here.
 class Quiz(models.Model):
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+    # teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
     title= models.CharField(max_length=150)
     detail=  models.TextField()
     add_time = models.DateTimeField(auto_now_add=True)
@@ -35,7 +35,7 @@ class QuizQuestion(models.Model):
 
 
 class CourseQuiz(models.Model):
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+    # teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
     course = models.ForeignKey(lms.models.Course, on_delete=models.CASCADE, null=True)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True)
     # notification_text= models.TextField(verbose_name='Notification Text')
