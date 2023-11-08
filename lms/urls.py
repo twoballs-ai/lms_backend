@@ -7,6 +7,7 @@ urlpatterns = [
     path('category/', views.CategoryList.as_view()),
     # росмотр всех курсов и добавление курса
     path('course/', views.CourseList.as_view()),
+    # список популярных курсов для вывода на главную
     path('popular-courses/', views.CourseRatingList.as_view()),
     path('search-by-course/<str:search_string>', views.CourseList.as_view()),
     path('update-view/<int:course_id>', views.update_view),

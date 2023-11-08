@@ -4,7 +4,7 @@ from django.core import serializers
 
 
 # Create your models here.
-# from user.models import Student, Teacher
+from user.models import Student, Teacher
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 
@@ -25,7 +25,7 @@ class CourseCategory(models.Model):
 
 class Course(models.Model):
     category = models.ForeignKey(CourseCategory,on_delete=models.CASCADE , related_name='category_course')
-    # teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_course')
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_course')
     title = models.CharField(max_length=150)
     description = models.TextField(null=True)
     course_image = models.ImageField(upload_to='course_images/', null=True)

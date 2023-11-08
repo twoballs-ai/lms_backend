@@ -8,9 +8,11 @@ from .serializers import CategorySerializer, CourseEnrollSerializer, \
     CourseSerializer, ChapterSerializer, CourseRatingSerializer, ModuleSerializer, NotificationSerializer, StagePassSerializer, StageSerializer,  StudentFavoriteCourseSerializer, StudentStageSerializer, StudyMaterialSerializer, TaskForStudentsSerializer, TotalStudentScoreSerializer
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
-
+from rest_framework import permissions
 
 class CategoryList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
     queryset = models.CourseCategory.objects.all()
     serializer_class = CategorySerializer
 
@@ -22,6 +24,7 @@ class StandardResultsSetPagination(PageNumberPagination):
 
 
 class CourseList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = models.Course.objects.all()
     serializer_class = CourseSerializer
     pagination_class = StandardResultsSetPagination
@@ -178,6 +181,7 @@ class EnrolledUsersByCourse(generics.ListAPIView):
 
 
 class CourseRatingList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = models.CourseRating.objects.all()
     serializer_class = CourseRatingSerializer
 

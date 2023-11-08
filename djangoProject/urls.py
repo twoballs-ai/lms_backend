@@ -15,17 +15,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
+from dj_rest_auth.registration.views import VerifyEmailView, ConfirmEmailView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/lms/', include('lms.urls')),
     path('api/quiz/', include('quiz.urls')),
     path('api/types/', include('step_types.urls')),
-
+    path('api/user/', include('user.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api/dj-rest-auth/registration/account-confirm-email/<str:key>/',ConfirmEmailView.as_view(),), # Needs to be defined before the registration path
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('api/v1/dj-rest-auth/account-confirm-email/',VerifyEmailView.as_view(),name='account_email_verification_sent'),
+    # re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
 
 ]
 # if settings.DEBUG:
