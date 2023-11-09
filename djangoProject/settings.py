@@ -138,18 +138,20 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ],
 }
 
 REST_AUTH = {
     'USER_DETAILS_SERIALIZER': 'user.serializers.UserSerializer',
-    'TOKEN_SERIALIZER': 'user.serializers.TokenSerializer',
+    # 'TOKEN_SERIALIZER': 'user.serializers.TokenSerializer',
     'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
-
+    'USE_JWT': True,
+    # 'JWT_AUTH_COOKIE': 'access',
+    # 'JWT_AUTH_REFRESH_COOKIE': 'refresh',
+    'JWT_AUTH_HTTPONLY':False
 }
 SITE_ID = 1
-
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True

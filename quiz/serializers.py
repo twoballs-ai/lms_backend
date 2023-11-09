@@ -35,7 +35,7 @@ class QuizQuestionSerializer(serializers.ModelSerializer):
 class CourseQuizSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CourseQuiz
-        fields = ['id','teacher','course', 'quiz', 'add_time']   
+        fields = ['id','course', 'quiz', 'add_time']   
         # depth = 1
 
     def __init__(self, *args, **kwargs):

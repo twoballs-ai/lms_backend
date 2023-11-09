@@ -7,7 +7,7 @@ from allauth.account.adapter import get_adapter
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
-        fields = ('id','email', 'password', 'is_student', 'is_teacher')
+        fields = ('id','email', 'is_student', 'is_teacher')
 # StudentSerializer
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -126,23 +126,23 @@ class TeacherCustomRegistrationSerializer(RegisterSerializer):
 
 
 
-class TokenSerializer(serializers.ModelSerializer):
-    user_type = serializers.SerializerMethodField()
+# class TokenSerializer(serializers.ModelSerializer):
+#     user_type = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Token
-        fields = ('key', 'user', 'user_type')
+#     class Meta:
+#         model = Token
+#         fields = ('key', 'user', 'user_type')
 
-    def get_user_type(self, obj):
-        serializer_data = UserSerializer(
-            obj.user
-        ).data
-        is_student = serializer_data.get('is_student')
-        is_teacher = serializer_data.get('is_teacher')
-        return {
-            'is_student': is_student,
-            'is_teacher': is_teacher
-        }
+#     def get_user_type(self, obj):
+#         serializer_data = UserSerializer(
+#             obj.user
+#         ).data
+#         is_student = serializer_data.get('is_student')
+#         is_teacher = serializer_data.get('is_teacher')
+#         return {
+#             'is_student': is_student,
+#             'is_teacher': is_teacher
+#         }
 class TeacherSerializer(serializers.ModelSerializer):
     # user = UserSerializer(required=True, many=False)
     class Meta:
